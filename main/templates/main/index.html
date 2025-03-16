@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <main class="main">
+        <div class="container">
+            <div class="searching-section section">
+                <div class="searching-section_bar">
+                    <img src="{% static 'main/img/magnifier.svg' %}" alt="Изображение лупы" class="magnifier-img">
+                    <textarea class="searching-section_bar-text" placeholder="Введите название или автора"></textarea>
+                    <button class="button-searching-section">Поиск</button>
+                </div>
+                <div class="searching-section_name">
+                    <h2 class="searching-section_title">Обменивайтесь книгами</h2>
+                    <h3 class="searching-section_subtitle">
+                        Найдите нужную книгу и обменяйте её на свою с другими любителями литературы
+                    </h3>
+                </div>
+            </div>    
+        
+            <div class="image-section">
+                <div class="popular-books">
+                    <div class="popular-books__title image-section__book-title">
+                        Популярная книга сегодня
+                    </div>
+                    <div class="image-section__book-card">
+                        <div class="image-section__book-card_favorite" onclick="toggleFavorite(this)">
+                            <i class="far fa-heart"></i> 
+                        </div>
+                        <a href="#" class="image-section__book-card_link">
+                            <img src="{% static 'main/img/popular-book.png' %}" alt="Фото книги" class="image-section__book-card_img">
+                            <div class="image-section__book-card_info">
+                                <div class="image-section__book-card_author">А. С. Пушкин</div>
+                                <div class="image-section__book-card_name">Капитанская дочка</div>
+                                <div class="image-section__book-card_location">Архангельск, пр-кт Новгородский, 34к2</div>
+                                <div class="image-section__book-card_date">Сегодня в 18:00</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="new-books">
+                    <div class="popular-books__title image-section__book-title">
+                        Новая книга на сайте
+                    </div>
+                    <div class="image-section__book-card">
+                        <div class="image-section__book-card_favorite" onclick="toggleFavorite(this)">
+                            <i class="far fa-heart"></i> 
+                        </div>
+                        <a href="#" class="image-section__book-card_link">
+                            <img src="{% static 'main/img/new-book.png' %}" alt="Фото книги" class="image-section__book-card_img">
+                            <div class="image-section__book-card_info">
+                                <div class="image-section__book-card_author">А. С. Пушкин</div>
+                                <div class="image-section__book-card_name">Капитанская дочка</div>
+                                <div class="image-section__book-card_location">Архангельск, пр-кт Новгородский, 34к2</div>
+                                <div class="image-section__book-card_date">Сегодня в 18:00</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="welcome-section section">
+                <div class="welcome-section__title">
+                    Добро пожаловать в КнигАрх
+                </div>
+                <div class="welcome-section__subtitle">
+                    КнигАрх - биржа для обмена книгами в городе Архангельск. Вы можете найти книги, которые хотите прочитать или поделиться ими с другими. Начните свое книжное путешествие прямо сейчас! 
+                </div>
+                <a class="welcome-section__button" href="#"> 
+                    Зарегистрируйся бесплатно 
+                </a>
+            </div>
+        
+            <div class="catigories-section">
+                <div class="catigories-section__title section__title">
+                    Категории
+                </div>
+                <div class="catigories-section__cards">
+                    {% for png, title in cats %}
+                        <div class="catigories-section__card">
+                            <img src="{% static 'main/img/catigories_card/' %}{{ png }}" alt="{{ title }}" class="catigories-section__card-img">
+                            <div class="catigories-section__card-title">{{ title }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        
+            <div class="all-books-section">
+                <div class="all-books-section__title section__title">
+                    <span class="all-books-section__text">Все объявления</span>
+                    <span class="all-books-section__arrow">→</span>
+                </div>
+                <div class="all-books-section__cards">
+                    {% for i in all_books_section_cards %}
+                        <div class="all-books-section__card book-card">
+                            <div class="book-card_favorite" onclick="toggleFavorite(this)">
+                                <i class="far fa-heart"></i>
+                            </div>
+                            <a href="#" class="book-card_link">
+                                <img src="{% static 'main/img/' %}{{ i }}" alt="Фото книги" class="book-card_img">
+                                <div class="book-card_info">
+                                    <div class="book-card_author">А. С. Пушкин</div>
+                                    <div class="book-card_name">Капитанская дочка</div>
+                                    <div class="book-card_location">Архангельск, пр-кт Новгородский, 34к2</div>
+                                    <div class="book-card_date">Сегодня в 18:00</div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="all-books-section__button">
+                    <button class="all-books-section_btn">
+                        Смотреть все предложения
+                    </button>
+                </div>
+            </div>
+        </div>
+        <hr>
+    </main>
+{% endblock %}
