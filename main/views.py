@@ -1,16 +1,18 @@
 from django.views.generic import TemplateView
 
+from main.models import Category
+
 
 # Create your views here.
 class MainPageView(TemplateView):
     template_name = 'main/index.html'
-    extra_context = {"all_books_section_cards": ["new-book.png", "new-book.png", "new-book.png",
-                                                  "new-book.png", "new-book.png", "new-book.png",],
-                     "cats": [["adventure.png", "Приключение"], ["detective.png", "Детективы"],
-                              ["fantastik.png", "Фантастика"], ["fentesi.png", "Фентези"],
-                              ["history_prose.png", "Историческая проза"], ["horror.png", "Ужасы"],
-                              ["love_romans.png", "Любовная романтика"], ["mistik.png", "Мистика"],
-                              ["poesia.png", "Поэзия"], ["other.png", "Другое"]]}
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cats'] = Category.objects.all()
+        context['all_books'] = ["new-book.png", "new-book.png", "new-book.png",
+                                                  "new-book.png", "new-book.png", "new-book.png",]
+        return context
 
 
 

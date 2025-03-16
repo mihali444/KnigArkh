@@ -92,6 +92,12 @@ class Category(models.Model):
         verbose_name='Название категории',
         help_text='Введите название категории'
     )
+    img = models.ImageField(
+        upload_to='images/category/',
+        verbose_name='Фото категории',
+        blank=True,
+        null=True,
+    )
 
     def __str__(self):
         return self.name
@@ -129,10 +135,14 @@ class Book(models.Model):
     )
     description = models.TextField(
         max_length=3000,
+        blank=True,
+        null=True,
         verbose_name='Описание книги',
         help_text='Описание книги'
     )
     release_year = models.IntegerField(
+        blank=True,
+        null=True,
         verbose_name='Год выпуска',
         validators=[MinValueValidator(1000), MaxValueValidator(2100)]
     )

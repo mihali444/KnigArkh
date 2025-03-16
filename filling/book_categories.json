@@ -1,0 +1,72 @@
+[
+    {
+        "model": "main.BookCategory",
+        "fields": {
+            "book": 1,
+            "category": 5
+        }
+    },
+    {
+        "model": "main.BookCategory",
+        "fields": {
+            "book": 2,
+            "category": 2
+        }
+    },
+    {
+        "model": "main.BookCategory",
+        "fields": {
+            "book": 3,
+            "category": 3
+        }
+    },
+    {
+        "model": "main.BookCategory",
+        "fields": {
+            "book": 4,
+            "category": 7
+        }
+    },
+    {
+        "model": "main.BookCategory",
+        "fields": {
+            "book": 5,
+            "category": 1
+        }
+    },
+    {
+        "model": "main.BookCategory",
+        "fields": {
+            "book": 6,
+            "category": 1
+        }
+    },
+    {
+        "model": "main.BookCategory",
+        "fields": {
+            "book": 7,
+            "category": 2
+        }
+    },
+    {
+        "model": "main.BookCategory",
+        "fields": {
+            "book": 8,
+            "category": 8
+        }
+    },
+    {
+        "model": "main.BookCategory",
+        "fields": {
+            "book": 9,
+            "category": 5
+        }
+    },
+    {
+        "model": "main.BookCategory",
+        "fields": {
+            "book": 10,
+            "category": 9
+        }
+    }
+]

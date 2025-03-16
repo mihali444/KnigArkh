@@ -76,10 +76,10 @@
                     Категории
                 </div>
                 <div class="catigories-section__cards">
-                    {% for png, title in cats %}
+                    {% for cat in cats %}
                         <div class="catigories-section__card">
-                            <img src="{% static 'main/img/catigories_card/' %}{{ png }}" alt="{{ title }}" class="catigories-section__card-img">
-                            <div class="catigories-section__card-title">{{ title }}</div>
+                            <img src="{{ cat.img.url }}" alt="{{ cat.name }}" class="catigories-section__card-img">
+                            <div class="catigories-section__card-title">{{ cat.name }}</div>
                         </div>
                     {% endfor %}
                 </div>
@@ -91,13 +91,13 @@
                     <span class="all-books-section__arrow">→</span>
                 </div>
                 <div class="all-books-section__cards">
-                    {% for i in all_books_section_cards %}
+                    {% for book in all_books %}
                         <div class="all-books-section__card book-card">
                             <div class="book-card_favorite" onclick="toggleFavorite(this)">
                                 <i class="far fa-heart"></i>
                             </div>
                             <a href="#" class="book-card_link">
-                                <img src="{% static 'main/img/' %}{{ i }}" alt="Фото книги" class="book-card_img">
+                                <img src="{% static 'main/img/' %}{{ book }}" alt="Фото книги" class="book-card_img">
                                 <div class="book-card_info">
                                     <div class="book-card_author">А. С. Пушкин</div>
                                     <div class="book-card_name">Капитанская дочка</div>

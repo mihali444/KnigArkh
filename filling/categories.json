@@ -1,0 +1,62 @@
+[
+    {
+        "model": "main.Category",
+        "fields": {
+            "name": "Приключение"
+        }
+    },
+    {
+        "model": "main.Category",
+        "fields": {
+            "name": "Детективы"
+        }
+    },
+    {
+        "model": "main.Category",
+        "fields": {
+            "name": "Фантастика"
+        }
+    },
+    {
+        "model": "main.Category",
+        "fields": {
+            "name": "Фентези"
+        }
+    },
+    {
+        "model": "main.Category",
+        "fields": {
+            "name": "Историческая проза"
+        }
+    },
+    {
+        "model": "main.Category",
+        "fields": {
+            "name": "Ужасы"
+        }
+    },
+    {
+        "model": "main.Category",
+        "fields": {
+            "name": "Любовная романтика"
+        }
+    },
+    {
+        "model": "main.Category",
+        "fields": {
+            "name": "Мистика"
+        }
+    },
+    {
+        "model": "main.Category",
+        "fields": {
+            "name": "Поэзия"
+        }
+    },
+    {
+        "model": "main.Category",
+        "fields": {
+            "name": "Другое"
+        }
+    }
+]

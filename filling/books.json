@@ -1,0 +1,102 @@
+[
+    {
+        "model": "main.Book",
+        "fields": {
+            "title": "Война и мир",
+            "author": 1,
+            "publisher": 1,
+            "description": "Эпический роман о русской жизни во время наполеоновских войн.",
+            "release_year": 1869
+        }
+    },
+    {
+        "model": "main.Book",
+        "fields": {
+            "title": "Преступление и наказание",
+            "author": 2,
+            "publisher": 1,
+            "description": "Психологический роман о моральных дилеммах.",
+            "release_year": 1866
+        }
+    },
+    {
+        "model": "main.Book",
+        "fields": {
+            "title": "1984",
+            "author": 3,
+            "publisher": 2,
+            "description": "Антиутопия о тоталитарном обществе.",
+            "release_year": 1949
+        }
+    },
+    {
+        "model": "main.Book",
+        "fields": {
+            "title": "Гордость и предубеждение",
+            "author": 4,
+            "publisher": 3,
+            "description": "Роман о любви и социальных нормах.",
+            "release_year": 1813
+        }
+    },
+    {
+        "model": "main.Book",
+        "fields": {
+            "title": "Приключения Тома Сойера",
+            "author": 5,
+            "publisher": 4,
+            "description": "Приключения мальчика в американской провинции.",
+            "release_year": 1876
+        }
+    },
+    {
+        "model": "main.Book",
+        "fields": {
+            "title": "Старик и море",
+            "author": 6,
+            "publisher": 5,
+            "description": "Повесть о борьбе человека с природой.",
+            "release_year": 1952
+        }
+    },
+    {
+        "model": "main.Book",
+        "fields": {
+            "title": "Убийство в Восточном экспрессе",
+            "author": 7,
+            "publisher": 6,
+            "description": "Детективный роман о расследовании убийства в поезде.",
+            "release_year": 1934
+        }
+    },
+    {
+        "model": "main.Book",
+        "fields": {
+            "title": "Сто лет одиночества",
+            "author": 8,
+            "publisher": 7,
+            "description": "Магический реализм, история семьи Буэндиа.",
+            "release_year": 1967
+        }
+    },
+    {
+        "model": "main.Book",
+        "fields": {
+            "title": "Собор Парижской Богоматери",
+            "author": 9,
+            "publisher": 8,
+            "description": "Роман о любви и трагедии в средневековом Париже.",
+            "release_year": 1831
+        }
+    },
+    {
+        "model": "main.Book",
+        "fields": {
+            "title": "Вишневый сад",
+            "author": 10,
+            "publisher": 9,
+            "description": "Пьеса о закате аристократии в России.",
+            "release_year": 1904
+        }
+    }
+]
