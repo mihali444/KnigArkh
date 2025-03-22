@@ -562,26 +562,6 @@ body {
     color: var(--light-gray);
 }
 
-.all-books-section__button {
-    text-align: center;
-}
-
-.all-books-section_btn {
-    font-size: 20px;
-    font-weight: 500;
-    border-radius: 20px;
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
-    border: 0;
-    padding: 12px 20px;
-
-    transition: background-color .2s linear;
-}
-
-.all-books-section_btn:hover {
-    background-color: var(--background-color);
-}
-
 /* Подвал */
 
 /* СТРАНИЦА HTML - Объявление */
