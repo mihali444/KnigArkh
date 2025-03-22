@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/reset.css">
+    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="../img/icon.svg"> 
+    <title>КнигАрх</title>
+</head>
+<body>
+    <header class="header">
+        <nav class="header-nav">
+            <div class="header-left">
+                <img class="header-img" src="../img/icon.svg" alt="Иконка сайта КнигАрх">
+                <h1 class="header-title">
+                    <a href="../index.html" class="header-title-link">КнигАрх</a>
+                </h1>
+            </div>
+        </nav>
+    </header>
+    <hr>
+    <main class="main">
+        <div class="container">
+            <div class="LogIn-section">
+                <h2 class="LogIn-section__title">Вход</h2>
+                <form action="/login" method="POST" class="LogIn-section__form">
+                    <input type="text" id="username" name="username" placeholder="Электронная почта или телефон" required class="form__username">
+                    <div class="error-message" id="usernameError"></div> <!-- Сообщение об ошибке -->
+                    <div class="form__password-field">
+                        <input type="password" id="password" name="password" placeholder="Пароль" required class="form__password">
+                        <span class="toggle-password" onclick="togglePasswordVisibility()">
+                            <i class="fas fa-eye-slash eye-icon"></i>
+                        </span>
+                    </div>
+                    <label for="remember-me" class="LogIn-section__remember-me">
+                        <input type="checkbox" id="remember-me" name="remember-me" class="checkbox__remember-me">
+                        Запомнить меня
+                    </label>
+                    <button type="submit" class="LogIn-section__button">Войти</button>
+                </form>
+                <p class="LogIn-section__additional-links">
+                    Еще не зарегистрированы? <a href="/register">Зарегистрироваться</a>
+                </p>
+                <p class="LogIn-section__additional-links">
+                    <a class="links__forgot-password" href="/forgot-password">Забыли пароль?</a>
+                </p>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+
+    </footer>
+    <script src="../js/scripts.js"></script>
+</body>
+</html>

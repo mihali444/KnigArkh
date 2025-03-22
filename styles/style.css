@@ -753,3 +753,110 @@ body {
     color: var(--third-color);
     background-color: #edddce;
 }
+
+/* СТРАНИЦА HTML - LogIn */
+
+.LogIn-section {
+    text-align: center;
+}
+
+.LogIn-section__title {
+    margin-top: 40px;
+    margin-bottom: 20px;
+
+    color: var(--secondary-color);
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.form__username, .form__password {
+    width: 450px;
+    padding: 16px 16px;
+    margin-bottom: 15px;
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    background-color: var(--background-color);
+    font-size: 16px;
+    color: var(--third-color);
+}
+
+.toggle-password {
+    position: relative;
+    color: #aaa;
+    transition: color 0.3s ease;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 16px;
+    top: 5px;
+    cursor: pointer;
+}
+
+.toggle-password:hover {
+    color: var(--secondary-color);
+}
+
+.password-field .toggle-password i {
+    font-size: 18px;
+}
+
+.LogIn-section__remember-me {
+    display: block;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: var(--secondary-color);
+}
+
+.checkbox__remember-me {
+    margin-right: 5px;
+}
+
+.LogIn-section__button {
+    width: 480px;
+    padding: 10px 0;
+    border: none;
+    border-radius: 12px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.LogIn-section__button:hover {
+    background-color: #d06b23;
+}
+
+.LogIn-section__additional-links {
+    margin-top: 15px;
+    font-size: 14px;
+    color: var(--secondary-color);
+}
+
+.LogIn-section__additional-links a {
+    color: var(--third-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.links__forgot-password {
+    margin-top: 24px
+}
+
+.LogIn-section__additional-links a:hover {
+    text-decoration: underline;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    height: 20px; 
+    visibility: hidden; 
+}
+
+.error-message.visible {
+    visibility: visible; 
+}
