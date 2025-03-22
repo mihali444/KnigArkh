@@ -749,7 +749,7 @@ body {
     font-weight: 600;
 }
 
-.form__username, .form__password {
+.form__email, .form__password, .form__username {
     width: 450px;
     padding: 16px 16px;
     margin-bottom: 15px;
