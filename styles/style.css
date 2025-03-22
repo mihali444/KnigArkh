@@ -736,11 +736,11 @@ body {
 
 /* СТРАНИЦА HTML - LogIn */
 
-.LogIn-section {
+.Reg-LogIn-section {
     text-align: center;
 }
 
-.LogIn-section__title {
+.Reg-LogIn-section__title {
     margin-top: 40px;
     margin-bottom: 20px;
 
@@ -782,7 +782,7 @@ body {
     font-size: 18px;
 }
 
-.LogIn-section__remember-me {
+.Reg-LogIn-section__remember-me {
     display: block;
     margin-bottom: 15px;
     font-size: 14px;
@@ -793,7 +793,7 @@ body {
     margin-right: 5px;
 }
 
-.LogIn-section__button {
+.Reg-LogIn-section__button {
     width: 480px;
     padding: 10px 0;
     border: none;
@@ -805,17 +805,17 @@ body {
     transition: background-color 0.3s ease;
 }
 
-.LogIn-section__button:hover {
+.Reg-LogIn-section__button:hover {
     background-color: #d06b23;
 }
 
-.LogIn-section__additional-links {
+.Reg-LogIn-section__additional-links {
     margin-top: 15px;
     font-size: 14px;
     color: var(--secondary-color);
 }
 
-.LogIn-section__additional-links a {
+.Reg-LogIn-section__additional-links a {
     color: var(--third-color);
     text-decoration: none;
     transition: color 0.3s ease;
@@ -825,7 +825,7 @@ body {
     margin-top: 24px
 }
 
-.LogIn-section__additional-links a:hover {
+.Reg-LogIn-section__additional-links a:hover {
     text-decoration: underline;
 }
 
@@ -839,4 +839,38 @@ body {
 
 .error-message.visible {
     visibility: visible; 
+}
+
+/* Страница - Регистрация */
+
+.Reg-LogIn-section__agree {
+    display: block;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: var(--secondary-color);
+}
+
+.checkbox__agree {
+    margin-right: 5px;
+}
+
+.again-toggle-password {
+    position: relative;
+    color: #aaa;
+    transition: color 0.3s ease;
+}
+
+.eye-icon-again {
+    position: absolute;
+    right: 16px;
+    top: 5px;
+    cursor: pointer;
+}
+
+.again-toggle-password:hover {
+    color: var(--secondary-color);
+}
+
+.password-field .again-toggle-password i {
+    font-size: 18px;
 }

@@ -24,7 +24,7 @@
     <main class="main">
         <div class="container">
             <div class="Reg-LogIn-section">
-                <h2 class="Reg-LogIn-section__title">Вход</h2>
+                <h2 class="Reg-LogIn-section__title">Регистрация</h2>
                 <form action="/login" method="POST" class="Reg-LogIn-section__form">
                     <input type="text" id="username" name="username" placeholder="Электронная почта" required class="form__username">
                     <div class="form__password-field">
@@ -32,18 +32,16 @@
                         <span class="toggle-password" onclick="togglePasswordVisibility()">
                             <i class="fas fa-eye-slash eye-icon"></i>
                         </span>
+                        <input type="password" id="password" name="password" placeholder="Повторите пароль" required class="form__password">
                     </div>
-                    <label for="remember-me" class="Reg-LogIn-section__remember-me">
-                        <input type="checkbox" id="remember-me" name="remember-me" class="checkbox__remember-me">
-                        Запомнить меня
+                    <label for="agree" class="Reg-LogIn-section__agree">
+                        <input type="checkbox" id="agree" name="agree" class="checkbox__agree">
+                        Я согласен с условиями обслуживания и политикой конфиденциальности
                     </label>
-                    <button type="submit" class="Reg-LogIn-section__button">Войти</button>
+                    <button type="submit" class="Reg-LogIn-section__button">Зарегестрироваться</button>
                 </form>
                 <p class="Reg-LogIn-section__additional-links">
-                    Еще не зарегистрированы? <a href="./registration.html">Зарегистрироваться</a>
-                </p>
-                <p class="Reg-LogIn-section__additional-links">
-                    <a class="links__forgot-password" href="/forgot-password">Забыли пароль?</a>
+                    Уже есть аккаунт? <a href="./logIn.html">Войти</a>
                 </p>
             </div>
         </div>
