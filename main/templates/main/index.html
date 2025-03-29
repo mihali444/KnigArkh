@@ -96,23 +96,19 @@
                             <div class="book-card_favorite" onclick="toggleFavorite(this)">
                                 <i class="far fa-heart"></i>
                             </div>
-                            <a href="#" class="book-card_link">
-                                <img src="{% static 'main/img/' %}{{ book }}" alt="Фото книги" class="book-card_img">
+                            <a href="{% url 'book:book-offer' book.uuid_post %}" class="book-card_link">
+                                <img src="{% if book.photos.all.first %}{{ book.photos.all.first.image.url }}{% else %}{{ book.book.img.url }}{% endif %}" alt="Фото книги" class="book-card_img">
                                 <div class="book-card_info">
-                                    <div class="book-card_author">А. С. Пушкин</div>
-                                    <div class="book-card_name">Капитанская дочка</div>
-                                    <div class="book-card_location">Архангельск, пр-кт Новгородский, 34к2</div>
-                                    <div class="book-card_date">Сегодня в 18:00</div>
+                                    <div class="book-card_author">{{ book.book.author }}</div>
+                                    <div class="book-card_name">{{ book.book.title}}</div>
+                                    <div class="book-card_location">{% if book.address %}{{ book.address }}{% else %}Адресс не указан{% endif %}</div>
+                                    <div class="book-card_date">{{ book.date_created }}</div>
                                 </div>
                             </a>
                         </div>
                     {% endfor %}
                 </div>
-                <div class="all-books-section__button">
-                    <button class="all-books-section_btn">
-                        Смотреть все предложения
-                    </button>
-                </div>
+
             </div>
         </div>
         <hr>

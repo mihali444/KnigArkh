@@ -3,6 +3,7 @@
 :root {
     --primary-color: #E87D30;
     --secondary-color: #171412;
+    --third-color: #A66E3B;
     --background-color: #F5F2F0;
     --text-color: #171412;
     --white: #fff;
@@ -32,9 +33,48 @@ body {
     padding: 0 50px;
 }
 
-.header-left, .header-right {
+.header-left, .header-right, .header-center {
     display: flex;
     align-items: center;
+}
+
+.header__search-container {
+    width: 430px;
+}
+
+.header__search-form {
+    display: flex;
+    align-items: center;
+    background-color: var(--background-color);
+    border-radius: 25px;
+    overflow: hidden;
+}
+
+.header__search-input {
+    flex: 1;
+    padding: 12px 16px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    color: var(--primary-color);
+    background-color: var(--background-color);
+}
+
+.header__search-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 12px 16px;
+    transition: opacity 0.3s ease;
+}
+
+.header__search-icon {
+    font-size: 18px;
+    color: #aaa;
+    display: inline-block;
+    width: 20px;
+    text-align: center;
+    transition: color 0.3s ease;
 }
 
 .header-img {
@@ -522,24 +562,315 @@ body {
     color: var(--light-gray);
 }
 
-.all-books-section__button {
+/* Подвал */
+
+/* СТРАНИЦА HTML - Объявление */
+
+.advertisement-book {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 90px;
+    max-width: 100%;
+    margin-top: 100px;
+}
+
+.advertisement-book__info-title {
+    color: var(--text-color);
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 20px;
+    margin-bottom: 4px;
+}
+
+.advertisement-book__info-author {
+    color: var(--third-color);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 21px;
+    margin-bottom: 16px;
+}
+
+.advertisement-book__favorite-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px; 
+    padding: 10px 35px;
+    margin-bottom: 16px;
+    border: none;
+    border-radius: 12px; 
+    background-color: #F2E8DE; 
+    color: var(--text-color); 
+    font-size: 14px;
+    font-weight: 200;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease; 
+}
+
+.advertisement-book__favorite-button:hover {
+    background-color: #efdfce; 
+}
+
+.advertisement-book__favorite-button.active { 
+    color: var(--third-color); 
+}
+
+.advertisement-book__favorite-button.active .fas {
+    color: var(--third-color); 
+}
+
+.book_desc {
+    color: var(--text-color);
+    font-size: 16px;
+    line-height: 21px
+}
+
+.advertisement-book__img {
+    width: 385px;
+    height: 376px;
+    border-radius: 12px;
+}
+
+.advertisement-description {
+    margin-top: 16px;
+}
+
+.advertisement-desc {
+    color: var(--text-color);
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.advertisement-info {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+
+.advertisement-info__column-small {
+    margin-right: 24px;
+}
+
+.advertisement-info__block-sm {
+    border-top: 1px solid #E5E8EB;
+    height: 98px;
+}
+
+.advertisement-info__title {
+  margin-top: 20px;
+  font-size: 14px;
+  color: var(--third-color);
+  line-height: 21px;
+}
+
+.advertisement-info__options {
+  font-size: 14px;
+  color: var(--text-color);
+  line-height: 21px;
+}
+
+.advertisement-info__block-l {
+    border-top: 1px solid #E5E8EB;
+    height: 98px;
+}
+
+.advertisement-profile {
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.advertisement-profile__desc {
+    display: flex;
+    align-items: center;
+}
+
+.advertisement-profile__desc-img {
+    width: 128px;
+    height: 128px;
+    border-radius: 64px;
+    margin-right: 16px;
+}
+
+.advertisement-profile__info-name {
+    color: var(--secondary-color);
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 28px;
+}
+
+.advertisement-profile__info-score {
+    display: flex;
+    align-items: center;
+    color: var(--third-color);
+    line-height: 24px;
+}
+
+.score-number {
+    margin-right: 6px;
+}
+
+.advertisement-profile__info-date {
+    font-size: 16px;
+    color: var(--third-color);
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.advertisement-profile__button {
+    padding: 9px 26px;
+    border: 0;
+    border-radius: 12px;
+    color: var(--secondary-color);
+    background-color: #F2E8DE;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 21px;
+    transition: color, background-color 0.2s ease-in;
+}
+
+.advertisement-profile__button:hover {
+    color: var(--third-color);
+    background-color: #edddce;
+}
+
+/* СТРАНИЦА HTML - LogIn */
+
+.Reg-LogIn-section {
     text-align: center;
 }
 
-.all-books-section_btn {
-    font-size: 20px;
-    font-weight: 500;
+.Reg-LogIn-section__title {
+    margin-top: 40px;
+    margin-bottom: 20px;
+
+    color: var(--secondary-color);
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.form__email, .form__password, .form__username {
+    width: 450px;
+    padding: 16px 16px;
+    margin-bottom: 15px;
+    border: none;
+    outline: none;
     border-radius: 20px;
+    background-color: var(--background-color);
+    font-size: 16px;
+    color: var(--third-color);
+}
+
+.toggle-password {
+    position: relative;
+    color: #aaa;
+    transition: color 0.3s ease;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 16px;
+    top: 5px;
+    cursor: pointer;
+}
+
+.toggle-password:hover {
+    color: var(--secondary-color);
+}
+
+.password-field .toggle-password i {
+    font-size: 18px;
+}
+
+.Reg-LogIn-section__remember-me {
+    display: block;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: var(--secondary-color);
+}
+
+.checkbox__remember-me {
+    margin-right: 5px;
+}
+
+.Reg-LogIn-section__button {
+    width: 480px;
+    padding: 10px 0;
+    border: none;
+    border-radius: 12px;
     background-color: var(--primary-color);
     color: var(--secondary-color);
-    border: 0;
-    padding: 12px 20px;
-
-    transition: background-color .2s linear;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.all-books-section_btn:hover {
-    background-color: var(--background-color);
+.Reg-LogIn-section__button:hover {
+    background-color: #d06b23;
 }
 
-/* Подвал */
+.Reg-LogIn-section__additional-links {
+    margin-top: 15px;
+    font-size: 14px;
+    color: var(--secondary-color);
+}
+
+.Reg-LogIn-section__additional-links a {
+    color: var(--third-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.links__forgot-password {
+    margin-top: 24px
+}
+
+.Reg-LogIn-section__additional-links a:hover {
+    text-decoration: underline;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    height: 20px; 
+    visibility: hidden; 
+}
+
+.error-message.visible {
+    visibility: visible; 
+}
+
+/* Страница - Регистрация */
+
+.Reg-LogIn-section__agree {
+    display: block;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: var(--secondary-color);
+}
+
+.checkbox__agree {
+    margin-right: 5px;
+}
+
+.again-toggle-password {
+    position: relative;
+    color: #aaa;
+    transition: color 0.3s ease;
+}
+
+.eye-icon-again {
+    position: absolute;
+    right: 16px;
+    top: 5px;
+    cursor: pointer;
+}
+
+.again-toggle-password:hover {
+    color: var(--secondary-color);
+}
+
+.password-field .again-toggle-password i {
+    font-size: 18px;
+}

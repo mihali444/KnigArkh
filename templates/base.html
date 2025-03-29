@@ -2,43 +2,57 @@
 
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'main/css/reset.css' %}">
-    <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="icon" href="{% static 'main/img/icon.svg' %}">
-    <title>КнигАрх</title>
-</head>
+{% block head %}
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{% static 'main/css/reset.css' %}">
+        <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link rel="icon" href="{% static 'main/img/icon.svg' %}">
+        <title>КнигАрх</title>
+    </head>
+{% endblock %}
 <body>
     <header class="header">
         <nav class="header-nav">
             <div class="header-left">
                 <img class="header-img" src="{% static 'main/img/icon.svg' %}" alt="Иконка сайта КнигАрх">
                 <h1 class="header-title">
-                    <a href="#" class="header-title-link">КнигАрх</a>
+                    <a href="{% url 'main:index' %}" class="header-title-link">КнигАрх</a>
                 </h1>
             </div>
-            <div class="header-right">
-                <div class="header-buttons">
-                    <div class="button-registration">
-                        <div class="button-registration__text">
-                            <a href="#" class="button-registration__text-link">Вход и Регистрация</a>
+            {% if user.is_authenticated %}
+                <div class="header-right">
+                    <div class="header-buttons">
+                        <div class="button-registration">
+                            <div class="button-registration__text">
+                                <a href="{% url 'profile:logout' %}" class="button-registration__text-link">Выйти</a>
+                            </div>
+                        </div>
+                        <div class="button-notification">
+                            <a href="#" class="button-notification-link">
+                                <img class="button-notification__img" src="{% static 'main/img/notification.svg' %}" alt="Колокольчик">
+                            </a>
                         </div>
                     </div>
-                    <div class="button-notification">
-                        <a href="#" class="button-notification-link">
-                            <img class="button-notification__img" src="{% static 'main/img/notification.svg' %}" alt="Колокольчик">
+                    <div class="header-profile">
+                        <a href="#" class="header-profile-link">
+                            <img class="header-profile__img" src="{% static 'main/img/profile-img.png' %}" alt="Фото вашего профиля">
                         </a>
                     </div>
                 </div>
-                <div class="header-profile">
-                    <a href="#" class="header-profile-link">
-                        <img class="header-profile__img" src="{% static 'main/img/profile-img.png' %}" alt="Фото вашего профиля">
-                    </a>
+            {% elif request.path != '/profile/login/' %}
+                <div class="header-right">
+                    <div class="header-buttons">
+                        <div class="button-registration">
+                            <div class="button-registration__text">
+                                <a href="{% url 'profile:login' %}" class="button-registration__text-link">Вход и Регистрация</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            {% endif %}
         </nav>
     </header>
     <hr>

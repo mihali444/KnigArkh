@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <main class="main">
+        <div class="container">
+            <div class="Reg-LogIn-section">
+                <h2 class="Reg-LogIn-section__title">Регистрация</h2>
+                {% if form.errors %}
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <p style="color: red;">{{ field.label }}: {{ error }}</p>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <p style="color: red;">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+                <form method="POST" class="Reg-LogIn-section__form">
+                    {% csrf_token %}
+                    <!-- Поле username -->
+                    {{ form.username }}
+                    <!-- Поле email -->
+                    {{ form.email }}
+                    <!-- Поле пароля -->
+                    <div class="form__password-field">
+                        {{ form.password1 }}
+                        <span class="toggle-password" onclick="togglePasswordVisibility('password1')">
+                            <i class="fas fa-eye-slash eye-icon"></i>
+                        </span>
+                    </div>
+                    <!-- Поле подтверждения пароля -->
+                    <div class="form__password-field">
+                        {{ form.password2 }}
+                        <span class="toggle-password" onclick="togglePasswordVisibility('password2')">
+                            <i class="fas fa-eye-slash eye-icon"></i>
+                        </span>
+                    </div>
+                    <!-- Чекбокс согласия -->
+                    <label for="agree" class="Reg-LogIn-section__agree">
+                        {{ form.agree }}
+                        Я согласен с условиями обслуживания и политикой конфиденциальности
+                    </label>
+                    <button type="submit" class="Reg-LogIn-section__button">Зарегистрироваться</button>
+                </form>
+                <p class="Reg-LogIn-section__additional-links">
+                    Уже есть аккаунт? <a href="{% url 'profile:login' %}">Войти</a>
+                </p>
+            </div>
+        </div>
+    </main>
+{% endblock %}

@@ -1,60 +1,60 @@
 [
     {
-        "model": "main.Publisher",
+        "model": "book.Publisher",
         "fields": {
             "name": "Эксмо"
         }
     },
     {
-        "model": "main.Publisher",
+        "model": "book.Publisher",
         "fields": {
             "name": "АСТ"
         }
     },
     {
-        "model": "main.Publisher",
+        "model": "book.Publisher",
         "fields": {
             "name": "Penguin Random House"
         }
     },
     {
-        "model": "main.Publisher",
+        "model": "book.Publisher",
         "fields": {
             "name": "HarperCollins"
         }
     },
     {
-        "model": "main.Publisher",
+        "model": "book.Publisher",
         "fields": {
             "name": "Simon & Schuster"
         }
     },
     {
-        "model": "main.Publisher",
+        "model": "book.Publisher",
         "fields": {
             "name": "Macmillan Publishers"
         }
     },
     {
-        "model": "main.Publisher",
+        "model": "book.Publisher",
         "fields": {
             "name": "Hachette Livre"
         }
     },
     {
-        "model": "main.Publisher",
+        "model": "book.Publisher",
         "fields": {
             "name": "Scholastic"
         }
     },
     {
-        "model": "main.Publisher",
+        "model": "book.Publisher",
         "fields": {
             "name": "Wiley"
         }
     },
     {
-        "model": "main.Publisher",
+        "model": "book.Publisher",
         "fields": {
             "name": "Bloomsbury"
         }

@@ -1,69 +1,69 @@
 [
     {
-        "model": "main.Author",
+        "model": "book.Author",
         "fields": {
             "name": "Лев Толстой",
             "bio": "Русский писатель, автор романов 'Война и мир', 'Анна Каренина'."
         }
     },
     {
-        "model": "main.Author",
+        "model": "book.Author",
         "fields": {
             "name": "Федор Достоевский",
             "bio": "Русский писатель, автор 'Преступления и наказания', 'Идиота'."
         }
     },
     {
-        "model": "main.Author",
+        "model": "book.Author",
         "fields": {
             "name": "Джордж Оруэлл",
             "bio": "Английский писатель, автор '1984', 'Скотного двора'."
         }
     },
     {
-        "model": "main.Author",
+        "model": "book.Author",
         "fields": {
             "name": "Джейн Остин",
             "bio": ""
         }
     },
     {
-        "model": "main.Author",
+        "model": "book.Author",
         "fields": {
             "name": "Марк Твен",
             "bio": "Американский писатель, автор 'Приключений Тома Сойера'."
         }
     },
     {
-        "model": "main.Author",
+        "model": "book.Author",
         "fields": {
             "name": "Эрнест Хемингуэй",
             "bio": "Американский писатель, автор 'Старик и море'."
         }
     },
     {
-        "model": "main.Author",
+        "model": "book.Author",
         "fields": {
             "name": "Агата Кристи",
             "bio": "Английская писательница, королева детективов."
         }
     },
     {
-        "model": "main.Author",
+        "model": "book.Author",
         "fields": {
             "name": "Габриэль Гарсия Маркес",
             "bio": "Колумбийский писатель, автор 'Сто лет одиночества'."
         }
     },
     {
-        "model": "main.Author",
+        "model": "book.Author",
         "fields": {
             "name": "Виктор Гюго",
             "bio": "Французский писатель, автор 'Собора Парижской Богоматери'."
         }
     },
     {
-        "model": "main.Author",
+        "model": "book.Author",
         "fields": {
             "name": "Антон Чехов",
             "bio": "Русский писатель и драматург, мастер коротких рассказов."

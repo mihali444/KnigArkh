@@ -1,62 +1,72 @@
 [
     {
-        "model": "main.Category",
+        "model": "category.Category",
         "fields": {
             "name": "Приключение"
-        }
+        },
+        "img": "images/category/adventure.png"
     },
     {
-        "model": "main.Category",
+        "model": "category.Category",
         "fields": {
             "name": "Детективы"
-        }
+        },
+        "img": "images/category/detective.png"
     },
     {
-        "model": "main.Category",
+        "model": "category.Category",
         "fields": {
             "name": "Фантастика"
-        }
+        },
+        "img": "images/category/fantastik.png"
     },
     {
-        "model": "main.Category",
+        "model": "category.Category",
         "fields": {
             "name": "Фентези"
-        }
+        },
+        "img": "images/category/fentesi.png"
     },
     {
-        "model": "main.Category",
+        "model": "category.Category",
         "fields": {
             "name": "Историческая проза"
-        }
+        },
+        "img": "images/category/history_prose.png"
     },
     {
-        "model": "main.Category",
+        "model": "category.Category",
         "fields": {
             "name": "Ужасы"
-        }
+        },
+        "img": "images/category/horror.png"
     },
     {
-        "model": "main.Category",
+        "model": "category.Category",
         "fields": {
             "name": "Любовная романтика"
-        }
+        },
+        "img": "images/category/love_romans.png"
     },
     {
-        "model": "main.Category",
+        "model": "category.Category",
         "fields": {
             "name": "Мистика"
-        }
+        },
+        "img": "images/category/mistik.png"
     },
     {
-        "model": "main.Category",
+        "model": "category.Category",
         "fields": {
             "name": "Поэзия"
-        }
+        },
+        "img": "images/category/poesia.png"
     },
     {
-        "model": "main.Category",
+        "model": "category.Category",
         "fields": {
             "name": "Другое"
-        }
+        },
+        "img": "images/category/other.png"
     }
 ]

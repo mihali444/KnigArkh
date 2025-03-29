@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <main class="main">
+        <div class="container">
+            <div class="advertisement-book">
+                <div class="advertisement-book__info">
+                    <div class="advertisement-book__info-title">
+                        {{ book.book.title }}
+                    </div>
+                    <div class="advertisement-book__info-author">
+                        {{ book.book.author }}
+                    </div>
+                    <button class="advertisement-book__favorite-button">
+                        Добавить в избранное <i class="far fa-star star-icon"></i>
+                    </button>
+                    <div class="advertisement-book_description">
+                        <p class="book_desc">{{ book.book.description }}</p>
+                    </div>
+                </div>
+                <div class="advertisement-book__img">
+                    <img src="{% if book.photos.all.first %}{{ book.photos.all.first.image.url }}{% else %}{{ book.book.img.url }}{% endif %}" alt="Фото книги">
+                </div>
+            </div>
+            <div class="advertisement-description">
+                <p class="advertisement-desc">
+                    {{ book.description }}
+                </p>
+            </div>
+            <div class="advertisement-info">
+                <div class="advertisement-info__column-small">
+                    <div class="advertisement-info__block-sm">
+                        <div class="advertisement-info__title">
+                            Язык
+                        </div>
+                        <div class="advertisement-info__options">
+                            {{ book.book.language }}
+                        </div>
+                    </div>
+                    <div class="advertisement-info__block-sm">
+                        <div class="advertisement-info__title">
+                            Категории
+                        </div>
+                        <div class="advertisement-info__options">
+                            {{ book.book.category.all|join:", " }}
+                        </div>
+                    </div>
+                    <div class="advertisement-info__block-sm">
+                        <div class="advertisement-info__title">
+                            Местоположение
+                        </div>
+                        <div class="advertisement-info__options">
+                            {% if book.address %}{{ book.address }}{% else %}Адресс не указан{% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="advertisement-info__column-large">
+                    <div class="advertisement-info__block-l">
+                        <div class="advertisement-info__title">
+                            Дата публикации
+                        </div>
+                        <div class="advertisement-info__options">
+                            {{ book.book.release_year }}
+                        </div>
+                    </div>
+                    <div class="advertisement-info__block-l">
+                        <div class="advertisement-info__title">
+                            Издательство
+                        </div>
+                        <div class="advertisement-info__options">
+                            {{ book.book.publisher }}
+                        </div>
+                    </div>
+                    <div class="advertisement-info__block-l">
+                        <div class="advertisement-info__title">
+                            Дата создания объявления
+                        </div>
+                        <div class="advertisement-info__options">
+                            {{ book.date_created|date }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="advertisement-profile">
+                <div class="advertisement-profile__desc">
+                    <img src="{{ book.user.photo.url }}" alt="Фото профиля" class="advertisement-profile__desc-img">
+                    <div class="advertisement-profile__info">
+                        <div class="advertisement-profile__info-name">
+                            {{ book.user.first_name }} {{ book.user.last_name }}
+                        </div>
+                        <div class="advertisement-profile__info-score">
+                            <div class="score-number">4.5</div>
+                            <i class="fas fa-star score-star"></i>
+                        </div>
+                        <div class="advertisement-profile__info-date">
+                            Зарегистрирован <span>{{ book.user.date_joined|date }}</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="advertisement-profile__button">
+                    Написать сообщение
+                </button>
+            </div>
+        </div>
+    </main>
+{% endblock %}
