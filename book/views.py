@@ -8,7 +8,7 @@ from main.models import BookOffer
 class ShowBookAnnouncement(DetailView):
     template_name = 'book/advertisement.html'
     model = BookOffer
-    context_object_name = 'book'
+    context_object_name = 'offer'
 
     def get_object(self, **kwargs):
         return get_object_or_404(BookOffer, uuid_post=self.kwargs['uuid_post'], is_published=True)

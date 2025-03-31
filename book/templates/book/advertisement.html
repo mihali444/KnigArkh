@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load main_tags %}
 
 
 {% block content %}
@@ -7,25 +8,30 @@
             <div class="advertisement-book">
                 <div class="advertisement-book__info">
                     <div class="advertisement-book__info-title">
-                        {{ book.book.title }}
+                        {{ offer.book.title }}
                     </div>
                     <div class="advertisement-book__info-author">
-                        {{ book.book.author }}
+                        {{ offer.book.author }}
                     </div>
-                    <button class="advertisement-book__favorite-button">
-                        Добавить в избранное <i class="far fa-star star-icon"></i>
+                    {% if request.user.is_authenticated %}
+                        {% check_favorite user=request.user offer=offer as favorite %}
+                    {% endif %}
+                    <button class="advertisement-book__favorite-button {% if request.user.is_authenticated and favorite %}active{% endif %}" data-offer-id="{{ offer.id }}">
+                        Добавить в избранное
+                        <i class="fa-star star-icon {% if request.user.is_authenticated and favorite %}fas{% else %}far{% endif %}">
+                        </i>
                     </button>
                     <div class="advertisement-book_description">
-                        <p class="book_desc">{{ book.book.description }}</p>
+                        <p class="book_desc">{{ offer.book.description }}</p>
                     </div>
                 </div>
                 <div class="advertisement-book__img">
-                    <img src="{% if book.photos.all.first %}{{ book.photos.all.first.image.url }}{% else %}{{ book.book.img.url }}{% endif %}" alt="Фото книги">
+                    <img src="{% if offer.photos.all.first %}{{ offer.photos.all.first.image.url }}{% else %}{{ offer.book.img.url }}{% endif %}" alt="Фото книги">
                 </div>
             </div>
             <div class="advertisement-description">
                 <p class="advertisement-desc">
-                    {{ book.description }}
+                    {{ offer.description }}
                 </p>
             </div>
             <div class="advertisement-info">
@@ -35,7 +41,7 @@
                             Язык
                         </div>
                         <div class="advertisement-info__options">
-                            {{ book.book.language }}
+                            {{ offer.book.language }}
                         </div>
                     </div>
                     <div class="advertisement-info__block-sm">
@@ -43,7 +49,7 @@
                             Категории
                         </div>
                         <div class="advertisement-info__options">
-                            {{ book.book.category.all|join:", " }}
+                            {{ offer.book.category.all|join:", " }}
                         </div>
                     </div>
                     <div class="advertisement-info__block-sm">
@@ -51,7 +57,7 @@
                             Местоположение
                         </div>
                         <div class="advertisement-info__options">
-                            {% if book.address %}{{ book.address }}{% else %}Адресс не указан{% endif %}
+                            {% if offer.address %}{{ offer.address }}{% else %}Адресс не указан{% endif %}
                         </div>
                     </div>
                 </div>
@@ -61,7 +67,7 @@
                             Дата публикации
                         </div>
                         <div class="advertisement-info__options">
-                            {{ book.book.release_year }}
+                            {{ offer.book.release_year }}
                         </div>
                     </div>
                     <div class="advertisement-info__block-l">
@@ -69,7 +75,7 @@
                             Издательство
                         </div>
                         <div class="advertisement-info__options">
-                            {{ book.book.publisher }}
+                            {{ offer.book.publisher }}
                         </div>
                     </div>
                     <div class="advertisement-info__block-l">
@@ -77,24 +83,24 @@
                             Дата создания объявления
                         </div>
                         <div class="advertisement-info__options">
-                            {{ book.date_created|date }}
+                            {{ offer.date_created|date }}
                         </div>
                     </div>
                 </div>
             </div>
             <div class="advertisement-profile">
                 <div class="advertisement-profile__desc">
-                    <img src="{{ book.user.photo.url }}" alt="Фото профиля" class="advertisement-profile__desc-img">
+                    <img src="{{ offer.user.photo.url }}" alt="Фото профиля" class="advertisement-profile__desc-img">
                     <div class="advertisement-profile__info">
                         <div class="advertisement-profile__info-name">
-                            {{ book.user.first_name }} {{ book.user.last_name }}
+                            {{ offer.user.first_name }} {{ offer.user.last_name }}
                         </div>
                         <div class="advertisement-profile__info-score">
                             <div class="score-number">4.5</div>
                             <i class="fas fa-star score-star"></i>
                         </div>
                         <div class="advertisement-profile__info-date">
-                            Зарегистрирован <span>{{ book.user.date_joined|date }}</span>
+                            Зарегистрирован <span>{{ offer.user.date_joined|date }}</span>
                         </div>
                     </div>
                 </div>
@@ -104,4 +110,40 @@
             </div>
         </div>
     </main>
+{% endblock %}
+
+{% block extra_js %}
+    {% if request.user.is_authenticated %}
+        <script>
+            document.querySelector('.advertisement-book__favorite-button').addEventListener('click', function () {
+                const button = this;
+                const offerId = button.getAttribute('data-offer-id');
+                const starIcon = button.querySelector('.star-icon');
+                const csrfToken = "{{ csrf_token }}";
+
+                fetch("{% url 'profile:toggle-favorite' %}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': csrfToken
+                    },
+                    body: 'offer_id=' + offerId
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        button.classList.toggle('active', data.is_favorite);
+                        starIcon.classList.toggle('far', !data.is_favorite);
+                        starIcon.classList.toggle('fas', data.is_favorite);
+                    } else {
+                        alert(data.message || 'Произошла ошибка');
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка:', error);
+                    alert('Не удалось выполнить запрос');
+                });
+            });
+        </script>
+    {% endif %}
 {% endblock %}

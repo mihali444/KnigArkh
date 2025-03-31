@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -16,3 +17,12 @@ class User(AbstractUser):
         verbose_name='Дата рождения'
     )
     # rating = models.FloatField()
+
+
+class Favorite(models.Model):
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='favorites')
+    offer = models.ForeignKey('main.BookOffer', on_delete=models.CASCADE)
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'offer')
