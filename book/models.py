@@ -136,20 +136,3 @@ class Publisher(models.Model):
 
     def __str__(self):
         return self.name
-
-
-# class BookCategory(models.Model):
-#     """ Таблица: Категории """
-#     book = models.ForeignKey(
-#         to='Book',
-#         on_delete=models.CASCADE,
-#         verbose_name='Книга'
-#     )
-#     category = models.ForeignKey(
-#         to='category.Category',
-#         on_delete=models.CASCADE,
-#         verbose_name='Категория'
-#     )
-#
-#     def __str__(self):
-#         return f"{self.book.title} - {self.category.name}"

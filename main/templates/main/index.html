@@ -59,63 +59,63 @@
                     </div>
                 </div>
             </div>
-
-            {% if not request.user.is_authenticated %}
-                <div class="welcome-section section">
-                    <div class="welcome-section__title">
-                        Добро пожаловать в КнигАрх
-                    </div>
-                    <div class="welcome-section__subtitle">
-                        КнигАрх - биржа для обмена книгами в городе Архангельск. Вы можете найти книги, которые хотите прочитать или поделиться ими с другими. Начните свое книжное путешествие прямо сейчас!
-                    </div>
-                    <a class="welcome-section__button" href="{% url 'profile:registration' %}">
-                        Зарегистрируйся бесплатно
-                    </a>
-                </div>
-            {% endif %}
-
-            <div class="catigories-section">
-                <div class="catigories-section__title section__title">
-                    Категории
-                </div>
-                <div class="catigories-section__cards">
-                    {% for cat in cats %}
-                        <div class="catigories-section__card">
-                            <img src="{{ cat.img.url }}" alt="{{ cat.name }}" class="catigories-section__card-img">
-                            <div class="catigories-section__card-title">{{ cat.name }}</div>
+            {% with request.user.is_authenticated as auth %}
+                {% if not auth %}
+                    <div class="welcome-section section">
+                        <div class="welcome-section__title">
+                            Добро пожаловать в КнигАрх
                         </div>
-                    {% endfor %}
-                </div>
-            </div>
-        
-            <div class="all-books-section">
-                <div class="all-books-section__title section__title">
-                    <span class="all-books-section__text">Все объявления</span>
-                    <span class="all-books-section__arrow">→</span>
-                </div>
-                <div class="all-books-section__cards">
-                    {% for offer in all_books %}
-                        <div class="all-books-section__card book-card">
-                            {% if request.user.is_authenticated %}
-                                {% check_favorite user=request.user offer=offer as favorite %}
-                            {% endif %}
-                            <div class="book-card_favorite {% if request.user.is_authenticated and favorite %}active{% endif %}" onclick="toggleFavorite(this)" data-offer-id="{{ offer.id }}">
-                                <i class="far fa-heart"></i>
+                        <div class="welcome-section__subtitle">
+                            КнигАрх - биржа для обмена книгами в городе Архангельск. Вы можете найти книги, которые хотите прочитать или поделиться ими с другими. Начните свое книжное путешествие прямо сейчас!
+                        </div>
+                        <a class="welcome-section__button" href="{% url 'profile:registration' %}">
+                            Зарегистрируйся бесплатно
+                        </a>
+                    </div>
+                {% endif %}
+
+                <div class="catigories-section">
+                    <div class="catigories-section__title section__title">
+                        Категории
+                    </div>
+                    <div class="catigories-section__cards">
+                        {% for cat in cats %}
+                            <div class="catigories-section__card">
+                                <img src="{{ cat.img.url }}" alt="{{ cat.name }}" class="catigories-section__card-img">
+                                <div class="catigories-section__card-title">{{ cat.name }}</div>
                             </div>
-                            <a href="{% url 'book:book-offer' offer.uuid_post %}" class="book-card_link">
-                                <img src="{% if offer.photos.all.first %}{{ offer.photos.all.first.image.url }}{% else %}{{ offer.book.img.url }}{% endif %}" alt="Фото книги" class="book-card_img">
-                                <div class="book-card_info">
-                                    <div class="book-card_author">{{ offer.book.author }}</div>
-                                    <div class="book-card_name">{{ offer.book.title}}</div>
-                                    <div class="book-card_location">{% if offer.address %}{{ offer.address }}{% else %}Адресс не указан{% endif %}</div>
-                                    <div class="book-card_date">{{ offer.date_created }}</div>
-                                </div>
-                            </a>
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
+                    </div>
                 </div>
 
-            </div>
+                <div class="all-books-section">
+                    <div class="all-books-section__title section__title">
+                        <span class="all-books-section__text">Все объявления</span>
+                        <span class="all-books-section__arrow">→</span>
+                    </div>
+                    <div class="all-books-section__cards">
+                        {% for offer in all_books %}
+                            <div class="all-books-section__card book-card">
+                                {% if auth %}
+                                    {% check_favorite user=request.user offer=offer as favorite %}
+                                {% endif %}
+                                <div class="book-card_favorite {% if auth and favorite %}active{% endif %}" onclick="toggleFavorite(this)" data-offer-id="{{ offer.id }}">
+                                    <i class="far fa-heart"></i>
+                                </div>
+                                <a href="{% url 'book:book-offer' offer.uuid_post %}" class="book-card_link">
+                                    <img src="{% if offer.photos.all.first %}{{ offer.photos.all.first.image.url }}{% else %}{{ offer.book.img.url }}{% endif %}" alt="Фото книги" class="book-card_img">
+                                    <div class="book-card_info">
+                                        <div class="book-card_author">{{ offer.book.author }}</div>
+                                        <div class="book-card_name">{{ offer.book.title}}</div>
+                                        <div class="book-card_location">{% if offer.address %}{{ offer.address }}{% else %}Адресс не указан{% endif %}</div>
+                                        <div class="book-card_date">{{ offer.date_created }}</div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endwith %}
         </div>
         <hr>
     </main>

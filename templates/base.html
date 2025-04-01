@@ -22,37 +22,39 @@
                     <a href="{% url 'main:index' %}" class="header-title-link">КнигАрх</a>
                 </h1>
             </div>
-            {% if user.is_authenticated %}
-                <div class="header-right">
-                    <div class="header-buttons">
-                        <div class="button-registration">
-                            <div class="button-registration__text">
-                                <a href="{% url 'profile:logout' %}" class="button-registration__text-link">Выйти</a>
+            {% with request.user.is_authenticated as auth %}
+                {% if auth %}
+                    <div class="header-right">
+                        <div class="header-buttons">
+                            <div class="button-registration">
+                                <div class="button-registration__text">
+                                    <a href="{% url 'profile:logout' %}" class="button-registration__text-link">Выйти</a>
+                                </div>
+                            </div>
+                            <div class="button-notification">
+                                <a href="#" class="button-notification-link">
+                                    <img class="button-notification__img" src="{% static 'main/img/notification.svg' %}" alt="Колокольчик">
+                                </a>
                             </div>
                         </div>
-                        <div class="button-notification">
-                            <a href="#" class="button-notification-link">
-                                <img class="button-notification__img" src="{% static 'main/img/notification.svg' %}" alt="Колокольчик">
+                        <div class="header-profile">
+                            <a href="#" class="header-profile-link">
+                                <img class="header-profile__img" src="{% static 'main/img/profile-img.png' %}" alt="Фото вашего профиля">
                             </a>
                         </div>
                     </div>
-                    <div class="header-profile">
-                        <a href="#" class="header-profile-link">
-                            <img class="header-profile__img" src="{% static 'main/img/profile-img.png' %}" alt="Фото вашего профиля">
-                        </a>
-                    </div>
-                </div>
-            {% elif request.path != '/profile/login/' %}
-                <div class="header-right">
-                    <div class="header-buttons">
-                        <div class="button-registration">
-                            <div class="button-registration__text">
-                                <a href="{% url 'profile:login' %}" class="button-registration__text-link">Вход и Регистрация</a>
+                {% elif request.path != '/profile/login/' %}
+                    <div class="header-right">
+                        <div class="header-buttons">
+                            <div class="button-registration">
+                                <div class="button-registration__text">
+                                    <a href="{% url 'profile:login' %}" class="button-registration__text-link">Вход и Регистрация</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            {% endif %}
+                {% endif %}
+            {% endwith %}
         </nav>
     </header>
     <hr>
