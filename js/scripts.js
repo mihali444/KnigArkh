@@ -32,3 +32,43 @@ function togglePasswordVisibility() {
     }
 }
 
+function redirectToEmailPage() {
+    // Здесь можно добавить проверку данных перед переходом
+    const emailInput = document.getElementById('email');
+
+    if (emailInput.value.trim() === '') {
+        alert('Пожалуйста, заполните все поля!');
+        return;
+    }
+
+    // Переход на другую страницу
+    window.location.href = './enter-email.html'; // Замените на нужный URL
+}
+
+function redirectToPasswordPage() {
+    // Здесь можно добавить проверку данных перед переходом
+    const codeInput = document.getElementById('code');
+
+    if (codeInput.value.trim() === '') {
+        alert('Пожалуйста, заполните все поля!');
+        return;
+    }
+
+    // Переход на другую страницу
+    console.log('Кнопка нажата!');
+    window.location.href = './new-password.html'; // Замените на нужный URL
+}
+
+function redirectToLoginPage() {
+    // Здесь можно добавить проверку данных перед переходом
+    const passwordInput = document.getElementById('password');
+
+    if (passwordInput.value.trim() === '') {
+        alert('Пожалуйста, заполните все поля!');
+        return;
+    }
+
+    // Переход на другую страницу
+    console.log('Кнопка нажата!');
+    window.location.href = './logIn.html'; // Замените на нужный URL
+}
