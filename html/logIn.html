@@ -25,8 +25,9 @@
         <div class="container">
             <div class="Reg-LogIn-section">
                 <h2 class="Reg-LogIn-section__title">Вход</h2>
+                <div class="error-message" id="error-message"></div>
                 <form action="/login" method="POST" class="Reg-LogIn-section__form">
-                    <input type="text" id="eamil" name="email" placeholder="Электронная почта" required class="form__email">
+                    <input type="text" id="email" name="email" placeholder="Электронная почта" required class="form__email">
                     <div class="form__password-field">
                         <input type="password" id="password" name="password" placeholder="Пароль" required class="form__password">
                         <span class="toggle-password" onclick="togglePasswordVisibility()">
