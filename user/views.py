@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView, PasswordResetDoneView
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
@@ -65,3 +66,18 @@ class UserLoginView(LoginView):
 def logout_views(request):
     logout(request)
     return HttpResponseRedirect(reverse_lazy('main:index'))
+
+
+class UserResetPasswordView(PasswordResetView):
+    template_name = 'profile/password-reset.html'
+    form_class = PasswordResetForm
+    success_url = reverse_lazy('profile:password-reset-done')
+
+
+class UseerPasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'profile/enter-email.html'
+
+
+class UserPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'profile/new-password.html'
+    success_url = reverse_lazy('profile:login')

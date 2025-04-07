@@ -93,7 +93,7 @@
                     <img src="{{ offer.user.photo.url }}" alt="Фото профиля" class="advertisement-profile__desc-img">
                     <div class="advertisement-profile__info">
                         <div class="advertisement-profile__info-name">
-                            {{ offer.user.first_name }} {{ offer.user.last_name }}
+                            {% if offer.user.first_name and offer.user.last_name %}{{ offer.user.first_name }} {{ offer.user.last_name }}{% else %}{{ offer.user.username }}{% endif %}
                         </div>
                         <div class="advertisement-profile__info-score">
                             <div class="score-number">4.5</div>

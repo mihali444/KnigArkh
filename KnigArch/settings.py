@@ -152,3 +152,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = '/profile/login/'
 LOGIN_REDIRECT_URL = '/'
+
+DEFAULT_FROM_EMAIL = 'arkh@book.ru'
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

@@ -26,7 +26,7 @@
                     Еще не зарегистрированы? <a href="{% url 'profile:registration' %}">Зарегистрироваться</a>
                 </p>
                 <p class="Reg-LogIn-section__additional-links">
-                    <a class="links__forgot-password" href="/forgot-password">Забыли пароль?</a>
+                    <a class="links__forgot-password" href="{% url 'profile:reset-password' %}">Забыли пароль?</a>
                 </p>
             </div>
         </div>
