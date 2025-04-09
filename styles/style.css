@@ -106,7 +106,7 @@ body {
     margin-right: 32px;
 }
 
-.button-registration, .button-notification {
+.button-registration, .button-notification, .button-message, .button-heart {
     background-color: var(--background-color);
     border-radius: 12px;
 
@@ -117,7 +117,7 @@ body {
     margin-right: 8px;
 }
 
-.button-registration:hover, .button-notification:hover {
+.button-registration:hover, .button-notification:hover, .button-message:hover, .button-heart:hover {
     background-color: var(--primary-color);
 }
 
@@ -132,15 +132,23 @@ body {
     font-size: 14px;
 }
 
-.button-notification {
+.button-notification, .button-heart, .button-message {
+    display: flex; /* Используем flexbox */
+    align-items: center; /* Выравнивание по вертикали */
+    justify-content: center; /* Выравнивание по горизонтали */
     background-color: var(--background-color);
+    color: var(--text-color);
     border-radius: 12px;
+    width: 40px;
+    height: 40px;
+    margin-left: 8px; /* Расстояние между кнопками */
 
     transition: background-color 0.2s linear;
 }
 
-.button-notification__img {
-    margin: 7px 10px;
+.button-notification__img, .button-message__img, .button-heart__img {
+    width: 16px; /* Фиксированная ширина иконки */
+    height: 16px; /* Фиксированная высота иконки */
 }
 
 .header-profile__img {
