@@ -46,15 +46,7 @@ function redirectToEmailPage() {
 }
 
 function redirectToPasswordPage() {
-    // Здесь можно добавить проверку данных перед переходом
-    const codeInput = document.getElementById('code');
 
-    if (codeInput.value.trim() === '') {
-        alert('Пожалуйста, заполните все поля!');
-        return;
-    }
-
-    // Переход на другую страницу
     console.log('Кнопка нажата!');
     window.location.href = './new-password.html'; // Замените на нужный URL
 }
@@ -127,33 +119,3 @@ function countRatings(reviews) {
     });
     return counts;
 }
-
-
-// Получаем все кнопки табов
-document.addEventListener('DOMContentLoaded', () => {
-    const tabs = document.querySelectorAll('.tab');
-    const activeAdContainer = document.getElementById('active-ad');
-    const completeAdContainer = document.getElementById('complete-ad');
-
-    function switchTabs(event) {
-        console.log('Кнопка нажата:', event.target.textContent);
-
-        tabs.forEach(tab => tab.classList.remove('active'));
-        event.target.classList.add('active');
-
-        const selectedTab = event.target.getAttribute('data-tab');
-
-        activeAdContainer.classList.add('hidden-ad');
-        completeAdContainer.classList.add('hidden-ad');
-
-        if (selectedTab === 'active') {
-            activeAdContainer.classList.remove('hidden-ad');
-        } else if (selectedTab === 'completed') {
-            completeAdContainer.classList.remove('hidden-ad');
-        }
-    }
-
-    tabs.forEach(tab => {
-        tab.addEventListener('click', switchTabs);
-    });
-});

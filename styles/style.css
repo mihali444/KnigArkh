@@ -971,7 +971,9 @@ body {
 .chart-row {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
+    margin-top: 16px; /* Если нужно, добавьте отступ сверху */
+    margin-left: 0;
 }
 
 .chart-row:not(:first-child) {
@@ -981,16 +983,27 @@ body {
 .rating-label {
     font-size: 14px;
     color: var(--text-color);
-    width: 20px;
+    width: auto; /* или увеличьте значение, например, до 24px */
+    min-width: 20px; /* минимальная ширина для выравнивания */
+    text-align: right; /* чтобы числа были выровнены по правому краю */
+    display: flex;
+    align-items: center; /* выравнивание по вертикали */
+    justify-content: flex-end; /* выравнивание текста по правому краю */
+}
+
+.chart-row, .chart-container {
+    overflow: visible; /* убедитесь, что контент не скрывается */
 }
 
 .bar-container {
+    box-sizing: border-box;
     flex-grow: 1;
     height: 8px;
     background: var(--background-color);
     border-radius: 4px;
     margin-right: 16px;
-    overflow: hidden;
+    overflow: hidden; /* Необходимо только для бара */
+    min-width: 0; /* Разрешает сжиматься при необходимости */
 }
 
 .bar {
@@ -1034,7 +1047,7 @@ body {
 }
 
 .hidden-ad {
-    display: none;
+    display: none !important;
 }
 
 .profile-ad {
