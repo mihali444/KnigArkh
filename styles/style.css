@@ -318,6 +318,7 @@ body {
     padding: 16px;
     flex-grow: 1;
 }
+
 .image-section__book-card_author {
     font-size: 20px;
     font-weight: 500;
@@ -642,10 +643,23 @@ body {
     line-height: 21px
 }
 
-.advertisement-book__img {
-    width: 385px;
-    height: 376px;
+/* Стили для контейнера изображения */
+.advertisement-book__img-container {
+    width: 400px; /* Фиксированная ширина */
+    height: 385px; /* Фиксированная высота */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 12px;
+    overflow: hidden; /* Убираем возможные переполнения */
+}
+
+/* Стили для изображения */
+.advertisement-book__img {
+    width: 100%; /* Изображение занимает всю ширину контейнера */
+    height: 100%; /* Изображение занимает всю высоту контейнера */
+    object-fit: contain; /* Масштабирование изображения без обрезки */
+    border-radius: 12px; /* Скругляем углы изображения */
 }
 
 .advertisement-description {
