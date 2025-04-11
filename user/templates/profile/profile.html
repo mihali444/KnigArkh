@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <main class="main">
+        <div class="container">
+           <div class="my-profile">
+                <div class="my-profile__info">
+                    <img src="{{ request.user.photo.url }}" class="my-profile__info-img">
+                    <h2 class="my-profile__info-name">{% if request.user.first_name is not None and request.user.last_name is not None %}{{ request.user.first_name }} {{ request.user.last_name }}{% else %}@{{ request.user.username }}{% endif %}</h2>
+                    <p class="my-profile__info-date">{{ request.user.date_joined|date }}</p>
+                    <button class="my-profile__info-button">Редактировать</button>
+                </div>
+                <div class="review-system">
+                    <div class="summary-container">
+                        <div class="rating-summary">
+                            <h1 class="average-rating">5.0</h1>
+                            <div class="stars">
+                                <span class="star">&#9733;</span>
+                                <span class="star">&#9733;</span>
+                                <span class="star">&#9733;</span>
+                                <span class="star">&#9733;</span>
+                                <span class="star">&#9733;</span>
+                            </div>
+                            <p class="total-reviews">{{ total_review }} оценок</p>
+                            <a href="#" class="total-comments">{{ total_comments }} отзывов</a>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <div class="chart-row">
+                            <span class="rating-label">5</span>
+                            <div class="bar-container">
+                                <div class="bar"></div>
+                            </div>
+                            <span class="count">12</span>
+                        </div>
+                        <div class="chart-row">
+                            <span class="rating-label">4</span>
+                            <div class="bar-container">
+                                <div class="bar"></div>
+                            </div>
+                            <span class="count">0</span>
+                        </div>
+                        <div class="chart-row">
+                            <span class="rating-label">3</span>
+                            <div class="bar-container">
+                                <div class="bar"></div>
+                            </div>
+                            <span class="count">0</span>
+                        </div>
+                        <div class="chart-row">
+                            <span class="rating-label">2</span>
+                            <div class="bar-container">
+                                <div class="bar"></div>
+                            </div>
+                            <span class="count">0</span>
+                        </div>
+                        <div class="chart-row">
+                            <span class="rating-label">1</span>
+                            <div class="bar-container">
+                                <div class="bar"></div>
+                            </div>
+                            <span class="count">0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tabs-buttons">
+                    <button type="button" data-tab="active" class="tab active">Активные</button>
+                    <button type="button" data-tab="completed" class="tab">Завершенные</button>
+                </div>
+
+                <div id="active-ad" class="profile-ad">
+                    {% for active_offer in active %}
+                        <div class="all-books-section__card book-card book-card_profile">
+                            <div class="book-card_favorite" onclick="toggleFavorite(this)">
+                                <i class="far fa-heart"></i>
+                            </div>
+                            <a href="#" class="book-card_link book-card_link-profile">
+                                <img src="{% if active_offer.photos.all.first %}{{ active_offer.photos.all.first.image.url }}{% else %}{{ active_offer.book.img.url }}{% endif %}" alt="Фото книги" class="book-card_img book-card_img-profile">
+                                <div class="book-card_info book-card_info-profile">
+                                    <div class="book-card_author book-card_author-profile">{{ active_offer.book.author.name }}</div>
+                                    <div class="book-card_name book-card_name-profile">{{ active_offer.book.title }}</div>
+                                    <div class="book-card_location book-card_location-profile">{% if active_offer.address %}{{ active_offer.address }}{% else %}Адресс не указан{% endif %}</div>
+                                    <div class="book-card_date book-card_date-profile">{{ active_offer.date_created|date }}</div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div id="complete-ad" class="profile-ad hidden-ad">
+                    {% for complete_offer in complete %}
+                        <div class="all-books-section__card book-card book-card_profile">
+                            <div class="book-card_favorite" onclick="toggleFavorite(this)">
+                                <i class="far fa-heart"></i>
+                            </div>
+                            <a href="#" class="book-card_link book-card_link-profile">
+                                <img src="{% if complete_offer.photos.all.first %}{{ complete_offer.photos.all.first.image.url }}{% else %}{{ complete_offer.book.img.url }}{% endif %}" alt="Фото книги" class="book-card_img book-card_img-profile">
+                                <div class="book-card_info book-card_info-profile">
+                                    <div class="book-card_author book-card_author-profile">{{ complete_offer.book.author.name }}</div>
+                                    <div class="book-card_name book-card_name-profile">{{ complete_offer.book.title }}</div>
+                                    <div class="book-card_location book-card_location-profile">{% if complete_offer.address %}{{ complete_offer.address }}{% else %}Адресс не указан{% endif %}</div>
+                                    <div class="book-card_date book-card_date-profile">{{ complete_offer.date_created|date }}</div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+           </div>
+        </div>
+    </main>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        const data = {
+            reviews: [
+                { rating: 5 },
+                { rating: 5 },
+                { rating: 5 },
+                { rating: 4 },
+                { rating: 5 },
+                { rating: 3 },
+                { rating: 5 },
+                { rating: 5 },
+                { rating: 5 },
+                { rating: 4 },
+                { rating: 5 },
+                { rating: 5 }
+            ],
+            comments: [
+                { text: "Отличная книга!" },
+                { text: "Советую всем." },
+                { text: "Хороший сюжет." },
+                { text: "Понравилось." },
+                { text: "Класс!" },
+                { text: "Великолепно!" },
+                { text: "Читается легко." },
+                { text: "Очень интересно." }
+            ]
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabs = document.querySelectorAll('.tab');
+            const activeAd = document.getElementById('active-ad');
+            const completeAd = document.getElementById('complete-ad');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function () {
+                    // Удаляем класс 'active' со всех вкладок
+                    tabs.forEach(t => t.classList.remove('active'));
+
+                    // Добавляем класс 'active' только к выбранной вкладке
+                    this.classList.add('active');
+
+                    // Проверяем, какая вкладка была выбрана
+                    if (this.getAttribute('data-tab') === 'active') {
+                        activeAd.classList.remove('hidden-ad'); // Показываем активные объявления
+                        completeAd.classList.add('hidden-ad');   // Скрываем завершенные объявления
+                    } else if (this.getAttribute('data-tab') === 'completed') {
+                        completeAd.classList.remove('hidden-ad'); // Показываем завершенные объявления
+                        activeAd.classList.add('hidden-ad');      // Скрываем активные объявления
+                    }
+                });
+            });
+        });
+
+        function updateRating(data) {
+            const averageRating = calculateAverageRating(data.reviews);
+            const totalReviews = data.reviews.length;
+            const totalComments = data.comments.length;
+
+            document.querySelector('.average-rating').textContent = averageRating.toFixed(1);
+            document.querySelector('.total-reviews').textContent = `${totalReviews} оценок`;
+            document.querySelector('.total-comments').textContent = `${totalComments} отзывов`;
+        }
+
+        function updateChart(data) {
+            const chartRows = document.querySelectorAll('.chart-row');
+            const ratingsCount = countRatings(data.reviews);
+
+            chartRows.forEach(row => {
+                const ratingLabel = row.querySelector('.rating-label').textContent;
+                const bar = row.querySelector('.bar');
+                const countSpan = row.querySelector('.count');
+
+                const count = ratingsCount[ratingLabel] || 0;
+                const percentage = count / data.reviews.length * 100;
+
+                bar.style.width = `${percentage}%`;
+                countSpan.textContent = count;
+            });
+        }
+
+        function calculateAverageRating(reviews) {
+            if (reviews.length === 0) return 0;
+            const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
+            return sum / reviews.length;
+        }
+
+        function countRatings(reviews) {
+            const counts = { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0 };
+            reviews.forEach(review => {
+                counts[review.rating]++;
+            });
+            return counts;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Обновляем средний рейтинг и количество отзывов
+            updateRating(data);
+
+            // Обновляем диаграмму рейтинга
+            updateChart(data);
+        });
+    </script>
+{% endblock %}

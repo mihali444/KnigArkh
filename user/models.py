@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 
@@ -27,4 +28,33 @@ class Favorite(models.Model):
     class Meta:
         verbose_name = 'Избранное'
         verbose_name_plural = 'Избранное'
+        unique_together = ('user', 'offer')
+
+
+class Reviews(models.Model):
+    user = models.ForeignKey(
+        to=get_user_model(),
+        on_delete=models.CASCADE,
+        verbose_name='От пользователя',
+        related_name='reviews'
+    )
+    offer = models.ForeignKey(
+        to='main.BookOffer',
+        on_delete=models.CASCADE,
+        verbose_name='Объявление',
+        related_name='reviews'
+    )
+    grade = models.IntegerField(
+        verbose_name='Оценка',
+        validators=[MinValueValidator(0), MaxValueValidator(5)],
+        blank=True,
+    )
+    description = models.TextField(
+        verbose_name='Комментарий',
+        blank=True,
+    )
+
+    class Meta:
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'
         unique_together = ('user', 'offer')

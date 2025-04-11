@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load cache %}
 {% load main_tags %}
 
 {% block content %}
@@ -74,47 +75,51 @@
                     </div>
                 {% endif %}
 
-                <div class="catigories-section">
-                    <div class="catigories-section__title section__title">
-                        Категории
-                    </div>
-                    <div class="catigories-section__cards">
-                        {% for cat in cats %}
-                            <div class="catigories-section__card">
-                                <img src="{{ cat.img.url }}" alt="{{ cat.name }}" class="catigories-section__card-img">
-                                <div class="catigories-section__card-title">{{ cat.name }}</div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="all-books-section">
-                    <div class="all-books-section__title section__title">
-                        <span class="all-books-section__text">Все объявления</span>
-                        <span class="all-books-section__arrow">→</span>
-                    </div>
-                    <div class="all-books-section__cards">
-                        {% for offer in all_books %}
-                            <div class="all-books-section__card book-card">
-                                {% if auth %}
-                                    {% check_favorite user=request.user offer=offer as favorite %}
-                                {% endif %}
-                                <div class="book-card_favorite {% if auth and favorite %}active{% endif %}" onclick="toggleFavorite(this)" data-offer-id="{{ offer.id }}">
-                                    <i class="far fa-heart"></i>
+                {% cache 300 category %}
+                    <div class="catigories-section">
+                        <div class="catigories-section__title section__title">
+                            Категории
+                        </div>
+                        <div class="catigories-section__cards">
+                            {% for cat in cats %}
+                                <div class="catigories-section__card">
+                                    <img src="{{ cat.img.url }}" alt="{{ cat.name }}" class="catigories-section__card-img">
+                                    <div class="catigories-section__card-title">{{ cat.name }}</div>
                                 </div>
-                                <a href="{% url 'book:book-offer' offer.uuid_post %}" class="book-card_link">
-                                    <img src="{% if offer.photos.all.first %}{{ offer.photos.all.first.image.url }}{% else %}{{ offer.book.img.url }}{% endif %}" alt="Фото книги" class="book-card_img">
-                                    <div class="book-card_info">
-                                        <div class="book-card_author">{{ offer.book.author }}</div>
-                                        <div class="book-card_name">{{ offer.book.title}}</div>
-                                        <div class="book-card_location">{% if offer.address %}{{ offer.address }}{% else %}Адресс не указан{% endif %}</div>
-                                        <div class="book-card_date">{{ offer.date_created }}</div>
-                                    </div>
-                                </a>
-                            </div>
-                        {% endfor %}
+                            {% endfor %}
+                        </div>
                     </div>
-                </div>
+                {% endcache %}
+
+                {% cache 120 all-books_section %}
+                    <div class="all-books-section">
+                        <div class="all-books-section__title section__title">
+                            <span class="all-books-section__text">Все объявления</span>
+                            <span class="all-books-section__arrow">→</span>
+                        </div>
+                        <div class="all-books-section__cards">
+                            {% for offer in all_books %}
+                                <div class="all-books-section__card book-card">
+                                    {% if auth %}
+                                        {% check_favorite user=request.user offer=offer as favorite %}
+                                    {% endif %}
+                                    <div class="book-card_favorite {% if auth and favorite %}active{% endif %}" onclick="toggleFavorite(this)" data-offer-id="{{ offer.id }}">
+                                        <i class="far fa-heart"></i>
+                                    </div>
+                                    <a href="{% url 'book:book-offer' offer.uuid_post %}" class="book-card_link">
+                                        <img src="{% if offer.photos.all.first %}{{ offer.photos.all.first.image.url }}{% else %}{{ offer.book.img.url }}{% endif %}" alt="Фото книги" class="book-card_img">
+                                        <div class="book-card_info">
+                                            <div class="book-card_author">{{ offer.book.author }}</div>
+                                            <div class="book-card_name">{{ offer.book.title}}</div>
+                                            <div class="book-card_location">{% if offer.address %}{{ offer.address }}{% else %}Адресс не указан{% endif %}</div>
+                                            <div class="book-card_date">{{ offer.date_created }}</div>
+                                        </div>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endcache %}
             {% endwith %}
         </div>
         <hr>
@@ -122,34 +127,39 @@
 {% endblock %}
 
 {% block extra_js %}
-    {% if request.user.is_authenticated %}
-        <script>
-            function toggleFavorite(element) {
-                const offerId = element.getAttribute('data-offer-id');
-                const heartIcon = element.querySelector('.fa-heart');
-                const csrfToken = "{{ csrf_token }}";  // CSRF-токен из шаблона
+    <script>
+        function toggleFavorite(element) {
+            const offerId = element.getAttribute('data-offer-id');
+            const heartIcon = element.querySelector('.fa-heart');
+            const csrfToken = "{{ csrf_token }}";  // CSRF-токен из шаблона
 
-                fetch("{% url 'profile:toggle-favorite' %}", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        'X-CSRFToken': csrfToken
-                    },
-                    body: 'offer_id=' + offerId
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        element.classList.toggle('active', data.is_favorite);
-                    } else {
-                        alert(data.message || 'Произошла ошибка');
-                    }
-                })
-                .catch(error => {
-                    console.error('Ошибка:', error);
-                    alert('Не удалось выполнить запрос');
-                });
-            }
-        </script>
-    {% endif %}
+            fetch("{% url 'profile:toggle-favorite' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': csrfToken
+                },
+                body: 'offer_id=' + offerId
+            })
+            .then(response => response.json())  // Всегда ждём JSON
+            .then(data => {
+                if (data.status === 'success') {
+                    // Успешное добавление/удаление избранного
+                    element.classList.toggle('active', data.is_favorite);
+                    heartIcon.classList.toggle('far', !data.is_favorite);  // Пустое сердце
+                    heartIcon.classList.toggle('fas', data.is_favorite);   // Заполненное сердце
+                } else if (data.status === 'error' && data.message === 'Требуется вход в систему') {
+                    // Перенаправление на страницу входа
+                    window.location.href = "{% url 'profile:login' %}?next=" + encodeURIComponent(window.location.pathname);
+                } else {
+                    // Другие ошибки (например, "Книга не найдена")
+                    alert(data.message || 'Произошла ошибка');
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                alert('Не удалось выполнить запрос');
+            });
+        }
+    </script>
 {% endblock %}

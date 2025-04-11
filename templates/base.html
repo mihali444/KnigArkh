@@ -1,4 +1,5 @@
 {% load static %}
+{% load cache %}
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -28,7 +29,7 @@
                         <div class="header-buttons">
                             <div class="button-registration">
                                 <div class="button-registration__text">
-                                    <a href="{% url 'profile:logout' %}" class="button-registration__text-link">Выйти</a>
+                                    <a href="{% url 'profile:logout' %}?next={{ request.path }}" class="button-registration__text-link">Выйти</a>
                                 </div>
                             </div>
                             <div class="button-notification">
@@ -38,7 +39,7 @@
                             </div>
                         </div>
                         <div class="header-profile">
-                            <a href="#" class="header-profile-link">
+                            <a href="{% url 'profile:profile' %}" class="header-profile-link">
                                 <img class="header-profile__img" src="{% static 'main/img/profile-img.png' %}" alt="Фото вашего профиля">
                             </a>
                         </div>
@@ -48,7 +49,7 @@
                         <div class="header-buttons">
                             <div class="button-registration">
                                 <div class="button-registration__text">
-                                    <a href="{% url 'profile:login' %}" class="button-registration__text-link">Вход и Регистрация</a>
+                                    <a href="{% url 'profile:login' %}?next={{ request.path }}" class="button-registration__text-link">Вход и Регистрация</a>
                                 </div>
                             </div>
                         </div>
@@ -63,12 +64,13 @@
 
     {% endblock %}
 
-    <footer class="footer">
+    {% cache 120 footer %}
+        <footer class="footer">
 
-    </footer>
-    <script src="{% static 'main/js/scripts.js' %}"></script>
+        </footer>
+    {% endcache %}
     {% block extra_js %}
-
+        <script src="{% static 'main/js/scripts.js' %}"></script>
     {% endblock %}
 </body>
 </html>

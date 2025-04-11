@@ -106,7 +106,7 @@ body {
     margin-right: 32px;
 }
 
-.button-registration, .button-notification {
+.button-registration, .button-notification, .button-message, .button-heart {
     background-color: var(--background-color);
     border-radius: 12px;
 
@@ -117,7 +117,7 @@ body {
     margin-right: 8px;
 }
 
-.button-registration:hover, .button-notification:hover {
+.button-registration:hover, .button-notification:hover, .button-message:hover, .button-heart:hover {
     background-color: var(--primary-color);
 }
 
@@ -132,15 +132,23 @@ body {
     font-size: 14px;
 }
 
-.button-notification {
+.button-notification, .button-heart, .button-message {
+    display: flex; /* Используем flexbox */
+    align-items: center; /* Выравнивание по вертикали */
+    justify-content: center; /* Выравнивание по горизонтали */
     background-color: var(--background-color);
+    color: var(--text-color);
     border-radius: 12px;
+    width: 40px;
+    height: 40px;
+    margin-left: 8px; /* Расстояние между кнопками */
 
     transition: background-color 0.2s linear;
 }
 
-.button-notification__img {
-    margin: 7px 10px;
+.button-notification__img, .button-message__img, .button-heart__img {
+    width: 16px; /* Фиксированная ширина иконки */
+    height: 16px; /* Фиксированная высота иконки */
 }
 
 .header-profile__img {
@@ -171,7 +179,7 @@ body {
 }
 
 .searching-section {
-    background-image: url(../img/PeopleAndBook.png) no-repeat;
+    background-image: url(../img/PeopleAndBook.png);
 }
 
 .searching-section_bar {
@@ -261,6 +269,8 @@ body {
     box-shadow: var(--shadow) var(--secondary-color);
     overflow: hidden;
     max-width: 472px;
+    display: flex;
+    flex-direction: column;
 }
 
 .image-section__book-card_favorite, .book-card_favorite {
@@ -299,13 +309,16 @@ body {
 .image-section__book-card_img {
     border-radius: 12px 12px 0 0; 
     width: 100%;
-    height: 500px; 
+    height: auto;
+    aspect-ratio: 9 / 11; /* Задайте нужное соотношение сторон */
     object-fit: cover;
 }
 
 .image-section__book-card_info {
     padding: 16px;
+    flex-grow: 1;
 }
+
 .image-section__book-card_author {
     font-size: 20px;
     font-weight: 500;
@@ -399,6 +412,7 @@ body {
 .catigories-section, .all-books-section {
     margin-top: 100px;
 }
+
 .section__title {
     color: var(--secondary-color);
     font-weight: 700;
@@ -406,12 +420,14 @@ body {
     line-height: 28px;
     margin-bottom: 40px;
 }
+
 .catigories-section__cards {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     column-gap: 12px;
     row-gap: 48px;
     max-width: 100%;
+    
 }
 
 .catigories-section__card-img {
@@ -499,6 +515,8 @@ body {
     box-shadow: var(--shadow) var(--secondary-color);
     overflow: hidden;
     max-width: 300px;
+    display: flex;
+    flex-direction: column;
 }
 
 .book-card_link {
@@ -507,10 +525,11 @@ body {
 }
 
 .book-card_img {
-    border-radius: 12px 12px 0 0; 
+    border-radius: 12px 12px 0 0;
     width: 100%;
-    height: 350px; 
-    object-fit: cover; 
+    height: auto; /* Убираем фиксированную высоту */
+    aspect-ratio: 10 / 15; /* Задаем соотношение сторон (например, 16:9) */
+    object-fit: cover;
 }
 
 .book-card_info {
@@ -560,26 +579,6 @@ body {
 .book-card_date {
     font-size: 14px;
     color: var(--light-gray);
-}
-
-.all-books-section__button {
-    text-align: center;
-}
-
-.all-books-section_btn {
-    font-size: 20px;
-    font-weight: 500;
-    border-radius: 20px;
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
-    border: 0;
-    padding: 12px 20px;
-
-    transition: background-color .2s linear;
-}
-
-.all-books-section_btn:hover {
-    background-color: var(--background-color);
 }
 
 /* Подвал */
@@ -642,12 +641,25 @@ body {
     color: var(--text-color);
     font-size: 16px;
     line-height: 21px
-}width: 385px;
-    height: 376px;
+}
+
+/* Стили для контейнера изображения */
+.advertisement-book__img-container {
+    width: 400px; /* Фиксированная ширина */
+    height: 385px; /* Фиксированная высота */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 12px;
+    overflow: hidden; /* Убираем возможные переполнения */
+}
 
+/* Стили для изображения */
 .advertisement-book__img {
-
+    width: 100%; /* Изображение занимает всю ширину контейнера */
+    height: 100%; /* Изображение занимает всю высоту контейнера */
+    object-fit: contain; /* Масштабирование изображения без обрезки */
+    border-radius: 12px; /* Скругляем углы изображения */
 }
 
 .advertisement-description {
@@ -752,4 +764,354 @@ body {
 .advertisement-profile__button:hover {
     color: var(--third-color);
     background-color: #edddce;
+}
+
+/* СТРАНИЦА HTML - LogIn */
+
+.Reg-LogIn-section {
+    text-align: center;
+}
+
+.Reg-LogIn-section__title {
+    margin-top: 40px;
+    margin-bottom: 20px;
+
+    color: var(--secondary-color);
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.form__email, .form__password, .form__username, .form__code {
+    width: 450px;
+    padding: 16px 16px;
+    margin-bottom: 15px;
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    background-color: var(--background-color);
+    font-size: 16px;
+    color: var(--third-color);
+}
+
+.toggle-password {
+    position: relative;
+    color: #aaa;
+    transition: color 0.3s ease;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 16px;
+    top: 5px;
+    cursor: pointer;
+}
+
+.toggle-password:hover {
+    color: var(--secondary-color);
+}
+
+.password-field .toggle-password i {
+    font-size: 18px;
+}
+
+.Reg-LogIn-section__remember-me {
+    display: block;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: var(--secondary-color);
+}
+
+.checkbox__remember-me {
+    margin-right: 5px;
+}
+
+.Reg-LogIn-section__button {
+    width: 480px;
+    padding: 10px 0;
+    border: none;
+    border-radius: 12px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.Reg-LogIn-section__button:hover {
+    background-color: #d06b23;
+}
+
+.Reg-LogIn-section__additional-links {
+    margin-top: 15px;
+    font-size: 14px;
+    color: var(--secondary-color);
+}
+
+.Reg-LogIn-section__additional-links a {
+    color: var(--third-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.links__forgot-password {
+    margin-top: 24px
+}
+
+.Reg-LogIn-section__additional-links a:hover {
+    text-decoration: underline;
+}
+
+
+/* Страница - Регистрация */
+
+.Reg-LogIn-section__agree {
+    display: block;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: var(--secondary-color);
+}
+
+.checkbox__agree {
+    margin-right: 5px;
+}
+
+.again-toggle-password {
+    position: relative;
+    color: #aaa;
+    transition: color 0.3s ease;
+}
+
+.eye-icon-again {
+    position: absolute;
+    right: 16px;
+    top: 5px;
+    cursor: pointer;
+}
+
+.again-toggle-password:hover {
+    color: var(--secondary-color);
+}
+
+.password-field .again-toggle-password i {
+    font-size: 18px;
+}
+
+/* Страница с моим профилем */
+
+.my-profile {
+    margin-top: 36px;
+}
+
+.my-profile__info {
+    text-align: center;
+}
+
+.my-profile__info-img {
+    width: 128px;
+    height: 128px;
+    border-radius: 64px;
+}
+
+.my-profile__info-name {
+    margin-top: 16px;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 28px;
+    color: var(--text-color);
+}
+
+.my-profile__info-date {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    color: var(--third-color);
+}
+
+.my-profile__info-button {
+    margin-top: 16px;
+    border: none;
+    border-radius: 12px;
+    background-color: var(--background-color);
+    padding: 10px 59px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.my-profile__info-button:hover {
+    background-color: var(--primary-color);
+}
+
+.review-system {
+    max-width: 530px;
+    margin-top: 32px;
+    display: flex;
+    gap: 20px;
+}
+
+.summary-container {
+    flex-basis: 200px;
+}
+
+.average-rating {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--text-color);
+    line-height: 45px;
+}
+
+.stars .star {
+    font-size: 24px;
+    color: #000; 
+    margin-right: 2px;
+}
+
+.total-reviews {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    margin-top: 8px;
+    color: var(--text-color);
+}
+
+.total-comments {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    color: var(--third-color);
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+.total-comments:hover {
+    color: var(--primary-color);
+}
+
+.chart-container {
+    flex-grow: 1;
+    width: 100%;
+}
+
+.chart-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px; /* Если нужно, добавьте отступ сверху */
+    margin-left: 0;
+}
+
+.chart-row:not(:first-child) {
+    margin-top: 16px;
+}
+
+.rating-label {
+    font-size: 14px;
+    color: var(--text-color);
+    width: auto; /* или увеличьте значение, например, до 24px */
+    min-width: 20px; /* минимальная ширина для выравнивания */
+    text-align: right; /* чтобы числа были выровнены по правому краю */
+    display: flex;
+    align-items: center; /* выравнивание по вертикали */
+    justify-content: flex-end; /* выравнивание текста по правому краю */
+}
+
+.chart-row, .chart-container {
+    overflow: visible; /* убедитесь, что контент не скрывается */
+}
+
+.bar-container {
+    box-sizing: border-box;
+    flex-grow: 1;
+    height: 8px;
+    background: var(--background-color);
+    border-radius: 4px;
+    margin-right: 16px;
+    overflow: hidden; /* Необходимо только для бара */
+    min-width: 0; /* Разрешает сжиматься при необходимости */
+}
+
+.bar {
+    height: 100%;
+    background: var(--text-color);
+    transition: width 0.3s ease;
+}
+
+.count {
+    font-size: 16px;
+    color: var(--text-color);
+    margin-left: 16px;
+}
+
+.tabs-buttons {
+    display: flex;
+    gap: 32px;
+    margin-top: 32px;
+}
+
+.tab {
+    font-size: 14px;
+    color: var(--text-color);
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    background-color: var(--white);
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s ease;
+}
+
+.tab.active {
+    font-weight: 700;
+    color: var(--third-color);
+    border-bottom: 3px solid var(--third-color);
+}
+
+.tab:hover {
+    color: var(--third-color);
+}
+
+.hidden-ad {
+    display: none !important;
+}
+
+.profile-ad {
+    position: relative;
+    display: grid;
+    max-width: 100%;
+    gap: 12px;
+    margin-top: 32px;
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.books-profile::after {
+    background: none;
+}
+
+
+.book-card_profile {
+    max-width: 176px;
+    box-shadow: none;
+}
+
+.book-card_img-profile {
+    width: 100%;
+    aspect-ratio: 10 / 14;
+}
+
+.book-card_info-profile {
+    padding: 16px 0;
+}
+
+.book-card_author-profile {
+    font-size: 14px;
+}
+
+.book-card_name-profile {
+    font-size: 16px;
+}
+
+.book-card_location-profile {
+    font-size: 12px;
+}
+
+.book-card_date-profile {
+    font-size: 10px;
 }

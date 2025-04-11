@@ -106,7 +106,7 @@ body {
     margin-right: 32px;
 }
 
-.button-registration, .button-notification {
+.button-registration, .button-notification, .button-message, .button-heart {
     background-color: var(--background-color);
     border-radius: 12px;
 
@@ -117,7 +117,7 @@ body {
     margin-right: 8px;
 }
 
-.button-registration:hover, .button-notification:hover {
+.button-registration:hover, .button-notification:hover, .button-message:hover, .button-heart:hover {
     background-color: var(--primary-color);
 }
 
@@ -132,15 +132,23 @@ body {
     font-size: 14px;
 }
 
-.button-notification {
+.button-notification, .button-heart, .button-message {
+    display: flex; /* Используем flexbox */
+    align-items: center; /* Выравнивание по вертикали */
+    justify-content: center; /* Выравнивание по горизонтали */
     background-color: var(--background-color);
+    color: var(--text-color);
     border-radius: 12px;
+    width: 40px;
+    height: 40px;
+    margin-left: 8px; /* Расстояние между кнопками */
 
     transition: background-color 0.2s linear;
 }
 
-.button-notification__img {
-    margin: 7px 10px;
+.button-notification__img, .button-message__img, .button-heart__img {
+    width: 16px; /* Фиксированная ширина иконки */
+    height: 16px; /* Фиксированная высота иконки */
 }
 
 .header-profile__img {
@@ -310,6 +318,7 @@ body {
     padding: 16px;
     flex-grow: 1;
 }
+
 .image-section__book-card_author {
     font-size: 20px;
     font-weight: 500;
@@ -634,10 +643,23 @@ body {
     line-height: 21px
 }
 
-.advertisement-book__img {
-    width: 385px;
-    height: 376px;
+/* Стили для контейнера изображения */
+.advertisement-book__img-container {
+    width: 400px; /* Фиксированная ширина */
+    height: 385px; /* Фиксированная высота */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 12px;
+    overflow: hidden; /* Убираем возможные переполнения */
+}
+
+/* Стили для изображения */
+.advertisement-book__img {
+    width: 100%; /* Изображение занимает всю ширину контейнера */
+    height: 100%; /* Изображение занимает всю высоту контейнера */
+    object-fit: contain; /* Масштабирование изображения без обрезки */
+    border-radius: 12px; /* Скругляем углы изображения */
 }
 
 .advertisement-description {
@@ -971,7 +993,9 @@ body {
 .chart-row {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
+    margin-top: 16px; /* Если нужно, добавьте отступ сверху */
+    margin-left: 0;
 }
 
 .chart-row:not(:first-child) {
@@ -981,16 +1005,27 @@ body {
 .rating-label {
     font-size: 14px;
     color: var(--text-color);
-    width: 20px;
+    width: auto; /* или увеличьте значение, например, до 24px */
+    min-width: 20px; /* минимальная ширина для выравнивания */
+    text-align: right; /* чтобы числа были выровнены по правому краю */
+    display: flex;
+    align-items: center; /* выравнивание по вертикали */
+    justify-content: flex-end; /* выравнивание текста по правому краю */
+}
+
+.chart-row, .chart-container {
+    overflow: visible; /* убедитесь, что контент не скрывается */
 }
 
 .bar-container {
+    box-sizing: border-box;
     flex-grow: 1;
     height: 8px;
     background: var(--background-color);
     border-radius: 4px;
     margin-right: 16px;
-    overflow: hidden;
+    overflow: hidden; /* Необходимо только для бара */
+    min-width: 0; /* Разрешает сжиматься при необходимости */
 }
 
 .bar {
@@ -1034,7 +1069,7 @@ body {
 }
 
 .hidden-ad {
-    display: none;
+    display: none !important;
 }
 
 .profile-ad {

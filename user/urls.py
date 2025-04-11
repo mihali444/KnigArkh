@@ -1,12 +1,11 @@
-from django.contrib.auth.views import PasswordResetView
 from django.urls import path
-
 from user.views import UserLoginView, logout_views, UserRegisterView, toggle_favorite, UserResetPasswordView, \
-    UserPasswordResetConfirmView, UseerPasswordResetDoneView
+    UserPasswordResetConfirmView, UseerPasswordResetDoneView, ProfileView
 
 app_name = 'profile'
 
 urlpatterns = [
+    path('', ProfileView.as_view(), name='profile'),
     path('toggle-favorite/', toggle_favorite, name='toggle-favorite'),
     path('login/', UserLoginView.as_view(), name='login'),
     path('logout/', logout_views, name='logout'),

@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% load main_tags %}
 
-
 {% block content %}
     <main class="main">
         <div class="container">
@@ -18,15 +17,14 @@
                     {% endif %}
                     <button class="advertisement-book__favorite-button {% if request.user.is_authenticated and favorite %}active{% endif %}" data-offer-id="{{ offer.id }}">
                         Добавить в избранное
-                        <i class="fa-star star-icon {% if request.user.is_authenticated and favorite %}fas{% else %}far{% endif %}">
-                        </i>
+                        <i class="far fa-star star-icon {% if request.user.is_authenticated and favorite %}fas{% else %}far{% endif %}"></i>
                     </button>
                     <div class="advertisement-book_description">
                         <p class="book_desc">{{ offer.book.description }}</p>
                     </div>
                 </div>
-                <div class="advertisement-book__img">
-                    <img src="{% if offer.photos.all.first %}{{ offer.photos.all.first.image.url }}{% else %}{{ offer.book.img.url }}{% endif %}" alt="Фото книги">
+                <div class="advertisement-book__img-container">
+                    <img class="advertisement-book__img" src="{% if offer.photos.all.first %}{{ offer.photos.all.first.image.url }}{% else %}{{ offer.book.img.url }}{% endif %}" alt="Фото книги">
                 </div>
             </div>
             <div class="advertisement-description">
@@ -93,14 +91,14 @@
                     <img src="{{ offer.user.photo.url }}" alt="Фото профиля" class="advertisement-profile__desc-img">
                     <div class="advertisement-profile__info">
                         <div class="advertisement-profile__info-name">
-                            {% if offer.user.first_name and offer.user.last_name %}{{ offer.user.first_name }} {{ offer.user.last_name }}{% else %}{{ offer.user.username }}{% endif %}
+                             {% if offer.user.first_name and offer.user.last_name %}{{ offer.user.first_name }} {{ offer.user.last_name }}{% else %}{{ offer.user.username }}{% endif %}
                         </div>
                         <div class="advertisement-profile__info-score">
                             <div class="score-number">4.5</div>
                             <i class="fas fa-star score-star"></i>
                         </div>
                         <div class="advertisement-profile__info-date">
-                            Зарегистрирован <span>{{ offer.user.date_joined|date }}</span>
+                            Создан <span>{{ offer.user.date_joined|date }}</span>
                         </div>
                     </div>
                 </div>
@@ -110,40 +108,4 @@
             </div>
         </div>
     </main>
-{% endblock %}
-
-{% block extra_js %}
-    {% if request.user.is_authenticated %}
-        <script>
-            document.querySelector('.advertisement-book__favorite-button').addEventListener('click', function () {
-                const button = this;
-                const offerId = button.getAttribute('data-offer-id');
-                const starIcon = button.querySelector('.star-icon');
-                const csrfToken = "{{ csrf_token }}";
-
-                fetch("{% url 'profile:toggle-favorite' %}", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        'X-CSRFToken': csrfToken
-                    },
-                    body: 'offer_id=' + offerId
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        button.classList.toggle('active', data.is_favorite);
-                        starIcon.classList.toggle('far', !data.is_favorite);
-                        starIcon.classList.toggle('fas', data.is_favorite);
-                    } else {
-                        alert(data.message || 'Произошла ошибка');
-                    }
-                })
-                .catch(error => {
-                    console.error('Ошибка:', error);
-                    alert('Не удалось выполнить запрос');
-                });
-            });
-        </script>
-    {% endif %}
 {% endblock %}

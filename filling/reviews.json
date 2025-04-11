@@ -1,0 +1,82 @@
+[
+    {
+        "model": "user.Reviews",
+        "pk": 1,
+        "fields": {
+            "user": 2,
+            "offer": 1,
+            "grade": 5,
+            "description": "Отличная книга, быстро договорились об обмене!"
+        }
+    },
+    {
+        "model": "user.Reviews",
+        "pk": 2,
+        "fields": {
+            "user": 2,
+            "offer": 2,
+            "grade": 4,
+            "description": "Книга в хорошем состоянии, но доставка заняла время."
+        }
+    },
+    {
+        "model": "user.Reviews",
+        "pk": 3,
+        "fields": {
+            "user": 2,
+            "offer": 3,
+            "grade": 3,
+            "description": "Книга немного потрепана, но читать можно."
+        }
+    },
+    {
+        "model": "user.Reviews",
+        "pk": 4,
+        "fields": {
+            "user": 2,
+            "offer": 4,
+            "grade": 1,
+            "description": ""
+        }
+    },
+    {
+        "model": "user.Reviews",
+        "pk": 5,
+        "fields": {
+            "user": 3,
+            "offer": 5,
+            "grade": 3,
+            "description": "Книга немного потрепана, но читать можно."
+        }
+    },
+    {
+        "model": "user.Reviews",
+        "pk": 6,
+        "fields": {
+            "user": 3,
+            "offer": 6,
+            "grade": 5,
+            "description": ""
+        }
+    },
+    {
+        "model": "user.Reviews",
+        "pk": 7,
+        "fields": {
+            "user": 3,
+            "offer": 7,
+            "grade": 4,
+            "description": "Книга немного потрепана, но читать можно."
+        }
+    },
+    {
+        "model": "user.Reviews",
+        "pk": 8,
+        "fields": {
+            "user": 3,
+            "offer": 8,
+            "grade": 2,
+            "description": ""
+        }
+    }
+]

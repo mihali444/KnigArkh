@@ -36,10 +36,10 @@
                         </span>
                     </div>
                     <!-- Чекбокс согласия -->
-                    <label for="agree" class="Reg-LogIn-section__agree">
+                    <div class="Reg-LogIn-section__agree">
                         {{ form.agree }}
                         Я согласен с условиями обслуживания и политикой конфиденциальности
-                    </label>
+                    </div>
                     <button type="submit" class="Reg-LogIn-section__button">Зарегистрироваться</button>
                 </form>
                 <p class="Reg-LogIn-section__additional-links">
@@ -48,4 +48,25 @@
             </div>
         </div>
     </main>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        function togglePasswordVisibility(fieldId) {
+            const passwordInput = document.getElementById(`id_${fieldId}`);
+            const toggleIcon = passwordInput.nextElementSibling.querySelector('.eye-icon');
+
+            if (passwordInput && toggleIcon) {
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    toggleIcon.classList.replace('fa-eye-slash', 'fa-eye');
+                } else {
+                    passwordInput.type = 'password';
+                    toggleIcon.classList.replace('fa-eye', 'fa-eye-slash');
+                }
+            } else {
+                console.error(`Не удалось найти поле или иконку для fieldId: ${fieldId}`);
+            }
+        }
+    </script>
 {% endblock %}

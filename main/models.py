@@ -34,7 +34,9 @@ class MainPageList(models.Model):
 
 class BookOffer(models.Model):
     """ Таблица: Объявления """
-
+    class OfferStatus(models.TextChoices):
+        ACTIVE = 'Active', 'Активное'
+        COMPLETED = 'Completed', 'Завершенное'
     user = models.ForeignKey(
         to=get_user_model(),
         on_delete=models.CASCADE,
@@ -58,6 +60,11 @@ class BookOffer(models.Model):
     is_published = models.BooleanField(
         default=True,
         verbose_name='Опубликовать'
+    )
+    is_active = models.TextField(
+        choices=OfferStatus.choices,
+        default=OfferStatus.ACTIVE,
+        verbose_name='Статус объявления'
     )
     edition_year = models.IntegerField(
         verbose_name='Год издания книги',
