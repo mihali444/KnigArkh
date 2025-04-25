@@ -111,5 +111,6 @@ document.querySelector('.advertisement-book__favorite-button').addEventListener(
 
 function redirectToEditingPage() {
     console.log('Кнопка нажата!');
-    window.location.href = './profile-edit.html'; // Замените на нужный URL
+    window.location.href = './profile-edit.html'; 
 }
+
