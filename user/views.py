@@ -1,148 +1,166 @@
-from django.contrib.auth import login, logout
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import PasswordResetForm
-from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView, PasswordResetDoneView
-from django.db.models import Count
-from django.http import HttpResponseRedirect, JsonResponse
-from django.shortcuts import redirect
-from django.urls import reverse_lazy, reverse
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import PasswordChangeView
+from django.http import Http404, JsonResponse
+from django.shortcuts import get_object_or_404
+from django.urls import reverse, reverse_lazy
 from django.views.decorators.http import require_http_methods
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import TemplateView, FormView
 
 from main.models import BookOffer
-from user.forms import LoginUserForm, RegistrationForm
-from user.models import Favorite, Reviews
+from user.forms import ProfileEditForm
+from user.models import Reviews, Favorite, Subscriber
 
 
-# Create your views here.
 @require_http_methods(['POST'])
-def toggle_favorite(request):
+def subscribe(request, ):
     if not request.user.is_authenticated:
         return JsonResponse(
             {'status': 'error', 'message': 'Требуется вход в систему'},
             status=403
         )
 
-    offer_id = request.POST.get('offer_id')
+    subscriber_id = request.POST.get('subscriber_id')
+    subscriber_to_id = request.POST.get('subscriber_to_id')
+
     try:
-        offer = BookOffer.objects.get(id=offer_id)
-        favorite, created = Favorite.objects.get_or_create(user=request.user, offer=offer)
+        subscriber = get_user_model().objects.get(id=subscriber_id)
+        subscriber_to = get_user_model().objects.get(id=subscriber_to_id)
+
+        subscribe, created = Subscriber.objects.get_or_create(subscriber=subscriber, subscribed_to=subscriber_to)
+
         if not created:
-            favorite.delete()
-            is_favorite = False
+            subscribe.delete()
+            is_subscribed = False
         else:
-            is_favorite = True
-        return JsonResponse({'status': 'success', 'is_favorite': is_favorite})
-    except BookOffer.DoesNotExist:
-        return JsonResponse({'status': 'error', 'message': 'Книга не найдена'}, status=404)
+            is_subscribed = True
+
+        return JsonResponse({'status': 'success', 'is_subscribed': is_subscribed})
+    except get_user_model().DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Пользователь не найден'}, status=404)
 
 
-class UserRegisterView(CreateView):
-    form_class = RegistrationForm
-    template_name = 'profile/registration.html'
-    success_url = reverse_lazy('main:index')
-
-    def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            return HttpResponseRedirect(reverse_lazy('main:index'))
-        else:
-            return super().get(request, *args, **kwargs)
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        user = form.instance
-        login(self.request, user)
-        return response
-
-
-class UserLoginView(LoginView):
-    template_name = 'profile/login.html'
-    form_class = LoginUserForm
-    success_url = reverse_lazy('main:index')
-
-    def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            return HttpResponseRedirect(reverse_lazy('main:index'))
-        else:
-            return super().get(request, *args, **kwargs)
+class ProfilePasswordChangeView(PasswordChangeView):
+    template_name = 'profile/change-password.html'
+    form_class = PasswordChangeForm
 
     def get_success_url(self):
-        return self.request.GET.get('next', self.get_default_redirect_url())
+        return reverse('profile:profile', kwargs={'username': self.request.user.username})
 
 
-def logout_views(request):
-    next_page = request.GET.get('next', request.path)
-    logout(request)
-    return HttpResponseRedirect(next_page or reverse('main:index'))
+# Create your views here.
+class ProfileEditView(LoginRequiredMixin, FormView):
+    login_url = reverse_lazy('login')
+    template_name = 'profile/profile-edit.html'
+    form_class = ProfileEditForm
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['instance'] = self.request.user
+        return kwargs
 
-class UserResetPasswordView(PasswordResetView):
-    template_name = 'profile/password-reset.html'
-    form_class = PasswordResetForm
-    html_email_template_name = 'profile/password_reset_email.html'
-    success_url = reverse_lazy('profile:password-reset-done')
+    def form_valid(self, form):
+        user = self.request.user
+        changed_data = form.changed_data  # Список полей, которые были изменены
 
+        if 'first_name' in changed_data:
+            user.first_name = form.cleaned_data['first_name']
+        if 'last_name' in changed_data:
+            user.last_name = form.cleaned_data['last_name']
+        if 'date_of_birth' in changed_data:
+            user.date_of_birth = form.cleaned_data['date_of_birth']
+        if 'username' in changed_data:
+            user.username = form.cleaned_data['username']
 
-class UseerPasswordResetDoneView(PasswordResetDoneView):
-    template_name = 'profile/enter-email.html'
+        if changed_data:
+            user.save()
 
+        return super().form_valid(form)
 
-class UserPasswordResetConfirmView(PasswordResetConfirmView):
-    template_name = 'profile/new-password.html'
-    success_url = reverse_lazy('profile:login')
+    def get_success_url(self):
+        return reverse('profile:profile', kwargs={'username': self.request.user.username})
 
 
 class ProfileView(TemplateView):
-    template_name = 'profile/profile.html'
+    template_name = 'profile/my_profile.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['active'] = BookOffer.objects.filter(
-            user=self.request.user,
-            is_active='Active',
-            is_published=True,
-        ).select_related(
-            'book',
-            'book__author',
-        ).prefetch_related(
-            'book__photos',
-            'photos'
-        ).order_by(
-            '-date_created'
-        )
+        user = get_object_or_404(get_user_model(), username=kwargs['username'])
+        if user:
+            context['user'] = user
 
-        context['complete'] = BookOffer.objects.filter(
-            user=self.request.user,
-            is_active='Completed',
-            # is_published=False,
-        ).select_related(
-            'book',
-            'book__author',
-        ).prefetch_related(
-            'book__photos',
-            'photos'
-        ).order_by(
-            '-date_created'
-        )
+            reviews = Reviews.objects.filter(
+                offer__user=user
+            ).select_related('offer', 'user')
 
-        context['reviews'] = Reviews.objects.filter(
-            offer__user=self.request.user
-        ).values(
-            'grade'
-        ).annotate(
-            Count('grade')
-        )
+            grade_counts = {}
+            for review in reviews:
+                grade_counts[review.grade] = grade_counts.get(review.grade, 0) + 1
 
-        context['total_comments'] = Reviews.objects.filter(
-            offer__user=self.request.user,
-            description__isnull=False
-        ).exclude(
-            description=''
-        ).count()
+            context['reviews'] = [{'grade': grade, 'grade__count': count}
+                                 for grade, count in grade_counts.items()]
 
-        context['total_review'] = Reviews.objects.filter(
-            offer__user=self.request.user,
-        ).count()
+            context['total_review'] = len(reviews)
+            context['total_comments'] = sum(1 for review in reviews if review.description and review.description.strip())
 
-        return context
+            context['rating_data'] = {
+                'reviews': [
+                    {'rating': review.grade} for review in reviews
+                ],
+                'comments': [
+                    {'text': review.description} for review in reviews
+                    if review.description and review.description.strip()
+                ]
+            }
 
+            request_user = self.request.user
+            user_favorites = set()
+            if request_user.is_authenticated:
+                user_favorites = set(
+                    Favorite.objects.filter(user=request_user).values_list('offer_id', flat=True)
+                )
+            context['user_favorites'] = user_favorites
+
+            book_offers_query = BookOffer.objects.filter(
+                user=user
+            ).select_related(
+                'book',
+                'book__author',
+            ).prefetch_related(
+                'book__photos',
+                'photos'
+            ).order_by(
+                '-date_created'
+            )
+
+            active_offers = book_offers_query.filter(
+                is_active='Active',
+                is_published=True,
+            )
+
+            complete_offers = book_offers_query.filter(
+                is_active='Completed',
+            )
+
+            for offer in active_offers:
+                offer.first_photo = offer.photos.first()
+
+            for offer in complete_offers:
+                offer.first_photo = offer.photos.first()
+
+            context['active'] = active_offers
+            context['complete'] = complete_offers
+
+            # Check if the current user is subscribed to the profile user
+            is_subscribed = False
+            if request_user.is_authenticated and request_user != user:
+                is_subscribed = Subscriber.objects.filter(
+                    subscriber=request_user,
+                    subscribed_to=user
+                ).exists()
+            context['is_subscribed'] = is_subscribed
+
+            return context
+        return Http404()

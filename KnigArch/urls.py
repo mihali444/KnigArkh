@@ -20,12 +20,18 @@ from django.contrib import admin
 from django.urls import path, include
 from debug_toolbar.toolbar import debug_toolbar_urls
 
+from login.views import UserLoginView, logout_views
+from registration.views import UserRegisterView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('main.urls'), name='main'),
-    path('announcement/', include('book.urls'), name='announcement'),
-    path('profile/', include('user.urls'), name='profile'),
+    path('announcement/', include('book.urls')),
+    path('profile/', include('user.urls')),
+    path('login/', UserLoginView.as_view(), name='login'),
+    path('logout/', logout_views, name='logout'),
+    path('registration/', UserRegisterView.as_view(), name='registration'),
+    path('reset-password/', include('rest_password.urls')),
+    path('', include('main.urls')),
 ] + debug_toolbar_urls()
 
 if settings.DEBUG:

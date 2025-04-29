@@ -1,16 +1,11 @@
 from django.urls import path
-from user.views import UserLoginView, logout_views, UserRegisterView, toggle_favorite, UserResetPasswordView, \
-    UserPasswordResetConfirmView, UseerPasswordResetDoneView, ProfileView
+from user.views import ProfileView, ProfileEditView, ProfilePasswordChangeView, subscribe
 
 app_name = 'profile'
 
 urlpatterns = [
-    path('', ProfileView.as_view(), name='profile'),
-    path('toggle-favorite/', toggle_favorite, name='toggle-favorite'),
-    path('login/', UserLoginView.as_view(), name='login'),
-    path('logout/', logout_views, name='logout'),
-    path('registration/', UserRegisterView.as_view(), name='registration'),
-    path('reset-password/', UserResetPasswordView.as_view(), name='reset-password'),
-    path('password-reset/done/', UseerPasswordResetDoneView.as_view(), name='password-reset-done'),
-    path('password-reset/<uidb64>/<token>/', UserPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('edit/', ProfileEditView.as_view(), name='edit'),
+    path('change-password/', ProfilePasswordChangeView.as_view(), name='change-password'),
+    path('subscribe/', subscribe, name='subscribe'),
+    path('<str:username>/', ProfileView.as_view(), name='profile'),
 ]

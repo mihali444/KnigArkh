@@ -15,7 +15,7 @@
                     {% if request.user.is_authenticated %}
                         {% check_favorite user=request.user offer=offer as favorite %}
                     {% endif %}
-                    <button class="advertisement-book__favorite-button {% if request.user.is_authenticated and favorite %}active{% endif %}" data-offer-id="{{ offer.id }}">
+                    <button class="advertisement-book__favorite-button {% if request.user.is_authenticated and favorite %}active{% endif %}" onclick="toggleFavorite(this)" data-offer-id="{{ offer.id }}" >
                         Добавить в избранное
                         <i class="far fa-star star-icon {% if request.user.is_authenticated and favorite %}fas{% else %}far{% endif %}"></i>
                     </button>
@@ -88,19 +88,21 @@
             </div>
             <div class="advertisement-profile">
                 <div class="advertisement-profile__desc">
-                    <img src="{{ offer.user.photo.url }}" alt="Фото профиля" class="advertisement-profile__desc-img">
-                    <div class="advertisement-profile__info">
-                        <div class="advertisement-profile__info-name">
-                             {% if offer.user.first_name and offer.user.last_name %}{{ offer.user.first_name }} {{ offer.user.last_name }}{% else %}{{ offer.user.username }}{% endif %}
+                    <a href="{% url 'profile:profile' offer.user.pk %}" class="advertisement-profile__desc-link">
+                        <img src="{{ offer.user.photo.url }}" alt="Фото профиля" class="advertisement-profile__desc-img">
+                        <div class="advertisement-profile__info">
+                            <div class="advertisement-profile__info-name">
+                                 {% if offer.user.first_name and offer.user.last_name %}{{ offer.user.first_name }} {{ offer.user.last_name }}{% else %}{{ offer.user.username }}{% endif %}
+                            </div>
+                            <div class="advertisement-profile__info-score">
+                                <div class="score-number">4.5</div>
+                                <i class="fas fa-star score-star"></i>
+                            </div>
+                            <div class="advertisement-profile__info-date">
+                                Создан <span>{{ offer.user.date_joined|date }}</span>
+                            </div>
                         </div>
-                        <div class="advertisement-profile__info-score">
-                            <div class="score-number">4.5</div>
-                            <i class="fas fa-star score-star"></i>
-                        </div>
-                        <div class="advertisement-profile__info-date">
-                            Создан <span>{{ offer.user.date_joined|date }}</span>
-                        </div>
-                    </div>
+                    </a>
                 </div>
                 <button class="advertisement-profile__button">
                     Написать сообщение
@@ -108,4 +110,42 @@
             </div>
         </div>
     </main>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        function toggleFavorite(element) {
+            const offerId = element.getAttribute('data-offer-id');
+            const heartIcon = element.querySelector('.fa-star');
+            const csrfToken = "{{ csrf_token }}";  // CSRF-токен из шаблона
+
+            fetch("{% url 'book:toggle-favorite' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': csrfToken
+                },
+                body: 'offer_id=' + offerId
+            })
+            .then(response => response.json())  // Всегда ждём JSON
+            .then(data => {
+                if (data.status === 'success') {
+                    // Успешное добавление/удаление избранного
+                    element.classList.toggle('active', data.is_favorite);
+                    heartIcon.classList.toggle('far', !data.is_favorite);  // Пустое сердце
+                    heartIcon.classList.toggle('fas', data.is_favorite);   // Заполненное сердце
+                } else if (data.status === 'error' && data.message === 'Требуется вход в систему') {
+                    // Перенаправление на страницу входа
+                    window.location.href = "{% url 'login' %}?next=" + encodeURIComponent(window.location.pathname);
+                } else {
+                    // Другие ошибки (например, "Книга не найдена")
+                    alert(data.message || 'Произошла ошибка');
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                alert('Не удалось выполнить запрос');
+            });
+        }
+    </script>
 {% endblock %}

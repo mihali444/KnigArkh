@@ -69,7 +69,7 @@
                         <div class="welcome-section__subtitle">
                             КнигАрх - биржа для обмена книгами в городе Архангельск. Вы можете найти книги, которые хотите прочитать или поделиться ими с другими. Начните свое книжное путешествие прямо сейчас!
                         </div>
-                        <a class="welcome-section__button" href="{% url 'profile:registration' %}">
+                        <a class="welcome-section__button" href="{% url 'registration' %}">
                             Зарегистрируйся бесплатно
                         </a>
                     </div>
@@ -91,7 +91,7 @@
                     </div>
                 {% endcache %}
 
-                {% cache 120 all-books_section %}
+{#                {% cache 120 all-books_section %}#}
                     <div class="all-books-section">
                         <div class="all-books-section__title section__title">
                             <span class="all-books-section__text">Все объявления</span>
@@ -103,7 +103,7 @@
                                     {% if auth %}
                                         {% check_favorite user=request.user offer=offer as favorite %}
                                     {% endif %}
-                                    <div class="book-card_favorite {% if auth and favorite %}active{% endif %}" onclick="toggleFavorite(this)" data-offer-id="{{ offer.id }}">
+                                    <div class="book-card_favorite {% if auth and favorite %}active{% endif %}" onclick="toggleFavorite(this)" data-offer-id="{{ offer.pk }}">
                                         <i class="far fa-heart"></i>
                                     </div>
                                     <a href="{% url 'book:book-offer' offer.uuid_post %}" class="book-card_link">
@@ -119,7 +119,7 @@
                             {% endfor %}
                         </div>
                     </div>
-                {% endcache %}
+{#                {% endcache %}#}
             {% endwith %}
         </div>
         <hr>
@@ -133,7 +133,7 @@
             const heartIcon = element.querySelector('.fa-heart');
             const csrfToken = "{{ csrf_token }}";  // CSRF-токен из шаблона
 
-            fetch("{% url 'profile:toggle-favorite' %}", {
+            fetch("{% url 'book:toggle-favorite' %}", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -150,7 +150,7 @@
                     heartIcon.classList.toggle('fas', data.is_favorite);   // Заполненное сердце
                 } else if (data.status === 'error' && data.message === 'Требуется вход в систему') {
                     // Перенаправление на страницу входа
-                    window.location.href = "{% url 'profile:login' %}?next=" + encodeURIComponent(window.location.pathname);
+                    window.location.href = "{% url 'login' %}?next=" + encodeURIComponent(window.location.pathname);
                 } else {
                     // Другие ошибки (например, "Книга не найдена")
                     alert(data.message || 'Произошла ошибка');

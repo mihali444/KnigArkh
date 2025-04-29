@@ -153,6 +153,8 @@ body {
 
 .header-profile__img {
     border-radius: 20px;
+    height: 40px;
+    width: 40px;
 }
 
 .header-profile__img:hover {
@@ -717,6 +719,12 @@ body {
     align-items: center;
 }
 
+.advertisement-profile__desc-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
 .advertisement-profile__desc-img {
     width: 128px;
     height: 128px;
@@ -936,6 +944,10 @@ body {
     transition: background-color 0.2s ease-in-out;
 }
 
+.button-subscription {
+    background-color: var(--primary-color);
+}
+
 .my-profile__info-button:hover {
     background-color: var(--primary-color);
 }
@@ -1114,4 +1126,168 @@ body {
 
 .book-card_date-profile {
     font-size: 10px;
+}
+
+/* Редактирование профиля */
+
+.profile-edit {
+    margin-top: 40px;
+}
+
+.profile-edit__title {
+    color: var(--secondary-color);
+    font-size: 32px;
+    line-height: 40px;
+    font-weight: 700;
+}
+
+/* Кнопка "Изменить фото" */
+.profile-edit__photo-container {
+    margin-top: 30px;
+    margin-bottom: 24px;
+}
+
+.profile-edit__photo-button {
+    display: inline-flex;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 12px;
+    background-color: var(--background-color);
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.profile-edit__photo-button:hover {
+    background-color: var(--light-gray);
+}
+
+.profile-edit__photo-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+}
+
+/* Форма */
+.profile-edit__form {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-edit__row {
+    display: flex;
+    margin-bottom: 16px;
+}
+
+.profile-edit__col {
+    margin-right: 16px;
+}
+
+.profile-edit__label {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.profile-edit__input {
+    width: 465px;
+    padding: 8px;
+    border: 1px solid #E5E0DB;
+    border-radius: 12px;
+    font-size: 14px;
+}
+
+.profile-edit__input-name, .profile-edit__input-lastname {
+    width: 216px;
+}
+
+/* Кнопка "Обновить" */
+.profile-edit__submit-button {
+    width: 216px;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.profile-edit__reset-password{
+    width: 216px;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: var(--background-color);
+    color: var(--secondary-color);
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* Страница смены пароля */
+
+.password-change {
+    margin-top: 40px;
+}
+
+.password-change__title {
+    color: var(--secondary-color);
+    font-size: 32px;
+    line-height: 40px;
+    font-weight: 700;
+}
+
+/* Форма */
+.password-change__form {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.password-change__row {
+    display: flex;
+    margin-bottom: 16px;
+}
+
+.password-change__col {
+    width: 100%;
+}
+
+.password-change__label {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.password-change__input {
+    width: 100%;
+    max-width: 465px;
+    padding: 8px;
+    border: 1px solid #E5E0DB;
+    border-radius: 12px;
+    font-size: 14px;
+}
+
+/* Кнопка "Сменить пароль" */
+.password-change__submit-button {
+    width: 216px;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.password-change__submit-button:hover {
+    background-color: #d06b23;
 }

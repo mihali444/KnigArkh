@@ -29,8 +29,18 @@
                         <div class="header-buttons">
                             <div class="button-registration">
                                 <div class="button-registration__text">
-                                    <a href="{% url 'profile:logout' %}?next={{ request.path }}" class="button-registration__text-link">Выйти</a>
+                                    <a href="{% url 'logout' %}?next={{ request.path }}" class="button-registration__text-link">Выйти</a>
                                 </div>
+                            </div>
+                            <div class="button-message">
+                                <a href="#" class="button-message-link">
+                                    <img class="button-message__img" src="{% static 'main/img/message.svg' %}" alt="Конверт">
+                                </a>
+                            </div>
+                            <div class="button-heart">
+                                <a href="#" class="button-heart-link">
+                                    <img class="button-heart__img" src="{% static 'main/img/black-heart.svg' %}" alt="Сердце">
+                                </a>
                             </div>
                             <div class="button-notification">
                                 <a href="#" class="button-notification-link">
@@ -39,8 +49,8 @@
                             </div>
                         </div>
                         <div class="header-profile">
-                            <a href="{% url 'profile:profile' %}" class="header-profile-link">
-                                <img class="header-profile__img" src="{% static 'main/img/profile-img.png' %}" alt="Фото вашего профиля">
+                            <a href="{% url 'profile:profile' request.user.username %}" class="header-profile-link">
+                                <img class="header-profile__img" src="{{ request.user.photo.url }}" alt="Фото вашего профиля">
                             </a>
                         </div>
                     </div>
@@ -49,7 +59,7 @@
                         <div class="header-buttons">
                             <div class="button-registration">
                                 <div class="button-registration__text">
-                                    <a href="{% url 'profile:login' %}?next={{ request.path }}" class="button-registration__text-link">Вход и Регистрация</a>
+                                    <a href="{% url 'login' %}?next={{ request.path }}" class="button-registration__text-link">Вход и Регистрация</a>
                                 </div>
                             </div>
                         </div>

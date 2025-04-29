@@ -1,10 +1,26 @@
 {% extends 'base.html' %}
+{% load form_filters %}
 
 {% block content %}
     <main class="main">
         <div class="container">
             <div class="Reg-LogIn-section">
                 <h2 class="Reg-LogIn-section__title">Вход</h2>
+
+                <!-- Отображение ошибок формы -->
+                {% if form.errors %}
+                    <div class="login-errors" style="margin-bottom: 20px; padding: 15px; background-color: #ffebee; border-radius: 5px; border-left: 5px solid #f44336;">
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <p style="color: #d32f2f; margin: 5px 0;">{{ field.label }}: {{ error }}</p>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <p style="color: #d32f2f; margin: 5px 0;">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
                 <form method="POST" class="Reg-LogIn-section__form">
                     {% csrf_token %}
                     <!-- Поле username -->
@@ -23,10 +39,10 @@
                     <button type="submit" class="Reg-LogIn-section__button">Войти</button>
                 </form>
                 <p class="Reg-LogIn-section__additional-links">
-                    Еще не зарегистрированы? <a href="{% url 'profile:registration' %}">Зарегистрироваться</a>
+                    Еще не зарегистрированы? <a href="{% url 'registration' %}">Зарегистрироваться</a>
                 </p>
                 <p class="Reg-LogIn-section__additional-links">
-                    <a class="links__forgot-password" href="{% url 'profile:reset-password' %}">Забыли пароль?</a>
+                    <a class="links__forgot-password" href="{% url 'rest-password:reset-password' %}">Забыли пароль?</a>
                 </p>
             </div>
         </div>

@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'main.apps.MainConfig',
     'book.apps.BookConfig',
+    'login.apps.LoginConfig',
+    'registration.apps.RegistrationConfig',
+    'rest_password.apps.RestPasswordConfig',
     'category.apps.CategoryConfig',
     'debug_toolbar',
     'django_extensions',
@@ -64,8 +67,7 @@ ROOT_URLCONF = 'KnigArch.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
