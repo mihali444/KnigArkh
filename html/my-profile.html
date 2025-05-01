@@ -20,21 +20,15 @@
             </div>
             <div class="header-right">
                 <div class="header-buttons">
-                    <div class="button-message">
-                        <a href="#" class="button-message-link">
-                            <img class="button-message__img" src="../img/message.svg" alt="Конверт">
-                        </a>
-                    </div>
-                    <div class="button-heart">
-                        <a href="#" class="button-heart-link">
-                            <img class="button-heart__img" src="../img/black-heart.svg" alt="Сердце">
-                        </a>
-                    </div>
-                    <div class="button-notification">
-                        <a href="#" class="button-notification-link">
-                            <img class="button-notification__img" src="../img/notification.svg" alt="Колокольчик">
-                        </a>
-                    </div>
+                    <a href="#" class="button-message button-message-link">
+                        <img class="button-message__img" src="../img/message.svg" alt="Конверт"> 
+                    </a>
+                    <a href="#" class="button-heart button-heart-link">
+                        <img class="button-heart__img" src="../img/black-heart.svg" alt="Сердце">
+                    </a>
+                    <a href="#" class="button-notification button-notification-link">
+                        <img class="button-notification__img" src="../img/notification.png" alt="Колокольчик">
+                    </a>
                 </div>
                 <div class="header-profile">
                     <a href="./my-profile.html" class="header-profile-link">
@@ -49,7 +43,28 @@
         <div class="container">
            <div class="my-profile">
                 <div class="my-profile__info">
-                    <img src="../img/my-profile_img.png" class="my-profile__info-img">
+                    <!-- Контейнер для аватара и кнопки камеры -->
+                    <div class="avatar-container">
+                    <img 
+                        id="profile-img" 
+                        src="../img/my-profile_img.png" 
+                        class="my-profile__info-img" 
+                        alt="Фото профиля"
+                    >
+                    <!-- Кнопка камеры (появляется при наведении) -->
+                    <button type="button" class="camera-button" onclick="document.getElementById('upload-photo').click()">
+                        <img src="../img/camera.svg" alt="Загрузить фото">
+                    </button>
+                    <!-- Скрытый input для загрузки файла -->
+                    <input 
+                        type="file" 
+                        id="upload-photo" 
+                        accept="image/*" 
+                        style="display: none;"
+                        onchange="handleImageUpload(event)"
+                    >
+                    </div>
+                
                     <h2 class="my-profile__info-name">Алина Крафт</h2>
                     <p class="my-profile__info-date">Создан в августе 2023</p>
                     <button class="my-profile__info-button" onclick="redirectToEditingPage()">Редактировать</button>

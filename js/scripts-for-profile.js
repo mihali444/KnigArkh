@@ -114,3 +114,42 @@ function redirectToEditingPage() {
     window.location.href = './profile-edit.html'; 
 }
 
+
+// Обработка загрузки файла через проводник
+function handleImageUpload(event) {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('profile-img').src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+  
+  // Обработка перетаскивания файла
+  const avatarContainer = document.querySelector('.avatar-container');
+  
+  avatarContainer.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    avatarContainer.classList.add('dragover');
+  });
+  
+  avatarContainer.addEventListener('dragleave', () => {
+    avatarContainer.classList.remove('dragover');
+  });
+  
+  avatarContainer.addEventListener('drop', (e) => {
+    e.preventDefault();
+    avatarContainer.classList.remove('dragover');
+    
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('profile-img').src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+

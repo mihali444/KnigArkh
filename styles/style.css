@@ -121,15 +121,12 @@ body {
     background-color: var(--primary-color);
 }
 
-.button-registration__text {
-    margin: 10px 12px;
-}
-
-.button-registration__text-link {
+.button-registration__link {
     color: var(--secondary-color);
     font-weight: 500;
     text-decoration: none;
     font-size: 14px;
+    padding: 10px 12px;
 }
 
 .button-notification, .button-heart, .button-message {
@@ -498,18 +495,6 @@ body {
     margin-bottom: 15px;
 }
 
-.all-books-section__cards::after {
-    content: '';
-    position: absolute;
-    bottom: -15px; /* Отступ снизу для перекрытия теней */
-    left: -15px; /* Отступ слева для перекрытия теней */
-    right: -15px; /* Отступ справа для перекрытия теней */
-    height: 70%; /* Увеличиваем высоту маски */
-    background: linear-gradient(to top, rgba(255, 255, 255, 1) 20%, rgba(255, 255, 255, 0) 100%);
-    pointer-events: none; /* Чтобы маска не блокировала клики */
-}
-
-
 .book-card {
     position: relative;
     background-color: var(--white);
@@ -529,8 +514,8 @@ body {
 .book-card_img {
     border-radius: 12px 12px 0 0;
     width: 100%;
-    height: auto; /* Убираем фиксированную высоту */
-    aspect-ratio: 10 / 15; /* Задаем соотношение сторон (например, 16:9) */
+    height: auto;
+    aspect-ratio: 10 / 15; 
     object-fit: cover;
 }
 
@@ -958,6 +943,46 @@ body {
     background-color: var(--primary-color);
 }
 
+/* Контейнер для аватара и кнопки камеры */
+.avatar-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  
+  /* Кнопка камеры (скрыта по умолчанию) */
+  .camera-button {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    padding: 8px;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transition: opacity 0.3s;
+    cursor: pointer;
+  }
+  
+  /* Показываем кнопку при наведении */
+  .avatar-container:hover .camera-button {
+    opacity: 1;
+  }
+  
+  /* Эффект при наведении на аватар */
+  .avatar-container:hover #profile-img {
+    filter: brightness(0.8);
+  }
+  
+  /* Обводка при перетаскивании файла */
+  .avatar-container.dragover {
+    border: 2px dashed var(--primary-color);
+    border-radius: 50%;
+    padding: 4px;
+  }
+
 .review-system {
     max-width: 530px;
     margin-top: 32px;
@@ -1145,33 +1170,7 @@ body {
     font-size: 32px;
     line-height: 40px;
     font-weight: 700;
-}
-
-/* Кнопка "Изменить фото" */
-.profile-edit__photo-container {
-    margin-top: 30px;
-    margin-bottom: 24px;
-}
-
-.profile-edit__photo-button {
-    display: inline-flex;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 12px;
-    background-color: var(--background-color);
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
-}
-
-.profile-edit__photo-button:hover {
-    background-color: var(--light-gray);
-}
-
-.profile-edit__photo-icon {
-    width: 16px;
-    height: 16px;
-    margin-right: 8px;
+    margin-bottom: 50px
 }
 
 /* Форма */
@@ -1191,7 +1190,7 @@ body {
 
 .profile-edit__label {
     display: block;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
     font-size: 14px;
     font-weight: bold;
 }
@@ -1202,6 +1201,7 @@ body {
     border: 1px solid #E5E0DB;
     border-radius: 12px;
     font-size: 14px;
+    margin-bottom: 20px;
 }
 
 .profile-edit__input-name, .profile-edit__input-lastname {
@@ -1220,6 +1220,12 @@ body {
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
+
+    transition: background-color 0.2s ease-in-out;
+}
+
+.profile-edit__submit-button:hover {
+    background-color: var(--background-color);
 }
 
 .profile-edit__reset-password{
@@ -1233,6 +1239,12 @@ body {
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
+
+    transition: background-color 0.2s ease-in-out;
+}
+
+.profile-edit__reset-password:hover{
+    background-color: var(--primary-color);
 }
 
 /* Страница смены пароля */
