@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/reset.css">
+    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="../img/icon.svg"> 
+    <title>КнигАрх</title>
+</head>
+<body>
+    <header class="header">
+        <nav class="header-nav">
+            <div class="header-left">
+                <img class="header-img" src="../img/icon.svg" alt="Иконка сайта КнигАрх">
+                <h1 class="header-title">
+                    <a href="../index.html" class="header-title-link">КнигАрх</a>
+                </h1>
+            </div>
+            <div class="header-right">
+                <div class="header-buttons">
+                    <a href="#" class="button-message button-message-link">
+                        <img class="button-message__img" src="../img/message.svg" alt="Конверт"> 
+                    </a>
+                    <a href="#" class="button-heart button-heart-link">
+                        <img class="button-heart__img" src="../img/black-heart.svg" alt="Сердце">
+                    </a>
+                    <a href="#" class="button-notification button-notification-link">
+                        <img class="button-notification__img" src="../img/notification.png" alt="Колокольчик">
+                    </a>
+                </div>
+                <div class="header-profile">
+                    <a href="./my-profile.html" class="header-profile-link">
+                        <img class="header-profile__img" src="../img/profile-img.png" alt="Фото вашего профиля">
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <hr>
+    <main class="main">
+        <div class="container">
+            <div class="new-advertisement">
+                <h1 class="new-advertisement__title">Новое объявление</h1>          
+        
+                
+                <form class="new-advertisement__form">
+                    
+                    <div class="new-advertisement__row">
+                        <div class="new-advertisement__col">
+                            <label for="title" class="new-advertisement__label">Название</label>
+                            <input type="text" placeholder="Введите название книги" id="title" class="new-advertisement__input">
+                        </div>
+                    </div>
+        
+                    <!-- Автор -->
+                    <div class="new-advertisement__row">
+                        <div class="new-advertisement__col">
+                            <label for="author" class="new-advertisement__label">Автор</label>
+                            <input type="text" placeholder="Введите автора книги" id="author" class="new-advertisement__input">
+                        </div>
+                    </div>
+                    
+                    <!-- Поле загрузки фото -->
+                    <div class="book-cover-upload">
+                        <input type="file" id="bookCover" multiple class="hidden-input">
+                        <label for="bookCover" class="upload-area">
+                            <p>Нажмите в любом месте, либо перетащите нужные фото</p>
+                        </label>
+                    </div>
+
+                    <!-- Описание книги -->
+                    <div class="new-advertisement__row">
+                        <div class="new-advertisement__col">
+                            <label for="description" class="new-advertisement__label">Описание книги</label>
+                            <textarea id="description" class="new-advertisement__textarea"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Описание продавца -->
+                    <div class="new-advertisement__row">
+                        <div class="new-advertisement__col">
+                            <label for="seller-description" class="new-advertisement__label">Описание продавца</label>
+                            <textarea id="seller-description" class="new-advertisement__textarea"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Язык -->
+                    <div class="new-advertisement__row">
+                        <div class="new-advertisement__col">
+                            <label for="language" class="new-advertisement__label">Язык</label>
+                            <input type="text" id="language" placeholder="Введите язык..." class="new-advertisement__input">
+                        </div>
+                    </div>
+
+                    <!-- Издание -->
+                    <div class="new-advertisement__row">
+                        <div class="new-advertisement__col">
+                            <label for="edition" class="new-advertisement__label">Издание</label>
+                            <input type="text" id="edition" placeholder="Введите название издания..." class="new-advertisement__input">
+                        </div>
+                    </div>
+
+                    <!-- Год издания -->
+                    <div class="new-advertisement__row">
+                        <div class="new-advertisement__col">
+                            <label for="year" class="new-advertisement__label">Год издания</label>
+                            <input type="number" id="year" placeholder="Введите год издания..." class="new-advertisement__input">
+                        </div>
+                    </div>
+
+                    <!-- Категория -->
+                    <div class="custom-select">
+                        <label for="category" class="new-advertisement__label">Категории</label>
+                        <input type="text" id="categoryDisplay" class="custom-select-input" placeholder="Выберите категорию(и)" readonly>
+                        <div class="custom-select-dropdown">
+                            <label class="custom-select-option">
+                                <input type="checkbox" value="Фэнтези"> Фэнтези
+                            </label>
+                            <label class="custom-select-option">
+                                <input type="checkbox" value="Мистика"> Мистика
+                            </label>
+                            <label class="custom-select-option">
+                                <input type="checkbox" value="Фантастика"> Фантастика
+                            </label>
+                            <label class="custom-select-option">
+                                <input type="checkbox" value="Поэзия"> Поэзия
+                            </label>
+                            <label class="custom-select-option">
+                                <input type="checkbox" value="Приключения"> Приключения
+                            </label>
+                            <label class="custom-select-option">
+                                <input type="checkbox" value="Историческая проза"> Историческая проза
+                            </label>
+                            <label class="custom-select-option">
+                                <input type="checkbox" value="Любовные романы"> Любовные романы
+                            </label>
+                            <label class="custom-select-option">
+                                <input type="checkbox" value="Ужасы"> Ужасы
+                            </label>
+                            <label class="custom-select-option">
+                                <input type="checkbox" value="Детектив"> Детектив
+                            </label>
+                            <label class="custom-select-option">
+                                <input type="checkbox" value="Другое"> Другое
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Местоположение -->
+                    <div class="new-advertisement__row">
+                        <div class="new-advertisement__col">
+                            <label for="location" class="new-advertisement__label">Местоположение</label>
+                            <input type="text" id="location" placeholder="Ваше местоположение" class="new-advertisement__input location-input">
+                        </div>
+                    </div>
+
+                    <!-- Кнопки -->
+                    <div class="buttons-container">
+                        <button type="submit" class="submit-button">Выложить объявление</button>
+                        <button type="button" class="cancel-button">Отменить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+        <hr>
+        <div class="footer-icon">
+            <img class="footer-img" src="../img/icon.svg" alt="Иконка сайта КнигАрх">
+            <h1 class="footer-title">
+                <a href="../index.html" class="footer-title-link">КнигАрх</a>
+            </h1>
+        </div>
+    </footer>
+    <script src="../js/new-advertisement.js"></script>
+</body>
+</html>
