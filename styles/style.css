@@ -11,6 +11,7 @@
     --gray: #666;
     --light-gray: #999;
     --shadow: 0 0 10px;
+    --footer-color: #A1824A;
 }
 
 /* Общие стили */
@@ -106,7 +107,7 @@ body {
     margin-right: 32px;
 }
 
-.button-registration, .button-notification, .button-message, .button-heart {
+.button-registration, .button-notification, .button-message, .button-heart, .button-create-advertisement {
     background-color: var(--background-color);
     border-radius: 12px;
 
@@ -117,7 +118,7 @@ body {
     margin-right: 8px;
 }
 
-.button-registration:hover, .button-notification:hover, .button-message:hover, .button-heart:hover {
+.button-registration:hover, .button-notification:hover, .button-message:hover, .button-heart:hover, .button-create-advertisement:hover {
     background-color: var(--primary-color);
 }
 
@@ -143,6 +144,21 @@ body {
     transition: background-color 0.2s linear;
 }
 
+.button-create-advertisement {
+    display: flex; /* Используем flexbox */
+    align-items: center; /* Выравнивание по вертикали */
+    justify-content: center; /* Выравнивание по горизонтали */
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border-radius: 12px;
+    padding: 10px;
+    margin-left: 8px; /* Расстояние между кнопками */
+    border: none;
+    cursor: pointer;
+
+    transition: background-color 0.2s linear;
+}
+
 .button-notification__img, .button-message__img, .button-heart__img {
     width: 16px; /* Фиксированная ширина иконки */
     height: 16px; /* Фиксированная высота иконки */
@@ -161,43 +177,79 @@ body {
 }
 
 /* Подвал */
-
 .footer {
-    padding: 40px 20px; 
-    text-align: center; 
+    padding: 40px 20px;
+    text-align: center;
 }
 
-.footer-icon {
+/* Верхняя часть с логотипом */
+.footer-top {
     display: flex;
-    margin-top: 30px;
     justify-content: center;
+    margin-bottom: 32px;
     align-items: center;
 }
 
-.footer-img {
-    width: 25px;
-    height: 25px;
+.logo-section__footer {
+    display: flex;
+    align-items: center;
+    gap: 16px;
 }
 
-.footer-title {
-    margin-left: 16px;
-    font-size: 25px;
-    line-height: 23px;
+.site-name__footer {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 32px;
 }
 
-.footer-title-link {
-    color: var(--secondary-color);
-    font-weight: 500;
+.links-container__footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 93px;
+    margin-bottom: 32px;
+}
+
+.footer-link {
+    color: var(--footer-color);
     text-decoration: none;
-
-    transition:color 0.2s ease;
+    margin-right: 93px;
+    transition: color 0.3s ease;
 }
 
-.footer-title-link:hover {
-    color: var(--primary-color);
+.footer-link:hover {
+    color: #8A7561;
 }
+
+.social-icons__footer {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.social-icons__footer a {
+    color: var(--footer-color);
+    font-size: 20px;
+    transition: color 0.3s ease;
+}
+
+.social-icons__footer a:hover {
+    color: #8A7561;
+}
+
+.copyright__footer {
+    color: var(--footer-color);
+    font-size: 14px;
+}
+
+
 
 /* Основная часть */
+
+.main{
+    margin-bottom: 125px;
+}
 
 /* Секция с поисковиком */
 .section {

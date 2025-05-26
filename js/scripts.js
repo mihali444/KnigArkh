@@ -45,6 +45,11 @@ function redirectToEmailPage() {
     window.location.href = './enter-email.html'; // Замените на нужный URL
 }
 
+function redirectToNewAdvertisementPage() {
+    console.log('Кнопка нажата!');
+    window.location.href = './new-advertisement.html'; 
+}
+
 function redirectToPasswordPage() {
 
     console.log('Кнопка нажата!');
