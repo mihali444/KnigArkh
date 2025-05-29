@@ -37,6 +37,7 @@ class BookOffer(models.Model):
     class OfferStatus(models.TextChoices):
         ACTIVE = 'Active', 'Активное'
         COMPLETED = 'Completed', 'Завершенное'
+
     user = models.ForeignKey(
         to=get_user_model(),
         on_delete=models.CASCADE,

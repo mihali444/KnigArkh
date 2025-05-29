@@ -45,12 +45,12 @@ INSTALLED_APPS = [
     'registration.apps.RegistrationConfig',
     'rest_password.apps.RestPasswordConfig',
     'category.apps.CategoryConfig',
-    'debug_toolbar',
+    # 'debug_toolbar',
     'django_extensions',
 ]
 
 MIDDLEWARE = [
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     # 'django.middleware.cache.UpdateCacheMiddleware',

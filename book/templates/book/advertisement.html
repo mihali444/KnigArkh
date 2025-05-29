@@ -88,7 +88,7 @@
             </div>
             <div class="advertisement-profile">
                 <div class="advertisement-profile__desc">
-                    <a href="{% url 'profile:profile' offer.user.pk %}" class="advertisement-profile__desc-link">
+                    <a href="{% url 'profile:profile' offer.user.username %}" class="advertisement-profile__desc-link">
                         <img src="{{ offer.user.photo.url }}" alt="Фото профиля" class="advertisement-profile__desc-img">
                         <div class="advertisement-profile__info">
                             <div class="advertisement-profile__info-name">
@@ -104,9 +104,15 @@
                         </div>
                     </a>
                 </div>
+                {% if request.user == offer.user %}
+                <a href="{% url 'book:edit-book-offer' uuid_post=offer.uuid_post %}" class="advertisement-profile__button">
+                    Редактировать объявление
+                </a>
+                {% else %}
                 <button class="advertisement-profile__button">
                     Написать сообщение
                 </button>
+                {% endif %}
             </div>
         </div>
     </main>

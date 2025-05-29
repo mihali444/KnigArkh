@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load main_tags %}
 
 {% block content %}
@@ -6,7 +7,23 @@
         <div class="container">
            <div class="my-profile">
                 <div class="my-profile__info">
-                    <img src="{{ user.photo.url }}" class="my-profile__info-img">
+
+                    {% if user.id == request.user.id %}
+                        <!-- Контейнер для аватара и кнопки камеры -->
+                        <div class="avatar-container">
+                            <img id="profile-img" src="{{ user.photo.url }}" class="my-profile__info-img" alt="Фото профиля">
+                            <!-- Кнопка камеры (появляется при наведении) -->
+                            <button type="button" class="camera-button" onclick="document.getElementById('upload-photo').click()">
+                                <img src="{% static 'main/img/camera.svg' %}" alt="Загрузить фото">
+                            </button>
+                            <!-- Скрытый input для загрузки файла -->
+                            <input type="file" id="upload-photo" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+                        </div>
+                    {% else %}
+                        <img id="profile-img" src="{{ user.photo.url }}" class="my-profile__info-img" alt="Фото профиля">
+                    {% endif %}
+
+
                     {% if user.first_name != "" or user.last_name != "" %}
                         <h2 class="my-profile__info-name">{{ user.first_name }} {{ user.last_name }}</h2>
                         <p class="my-profile__info-date">@{{ user.username }}</p>
@@ -26,13 +43,13 @@
                 <div class="review-system">
                     <div class="summary-container">
                         <div class="rating-summary">
-                            <h1 class="average-rating">5.0</h1>
+                            <h1 class="average-rating">0.0</h1>
                             <div class="stars">
-                                <span class="star">&#9733;</span>
-                                <span class="star">&#9733;</span>
-                                <span class="star">&#9733;</span>
-                                <span class="star">&#9733;</span>
-                                <span class="star">&#9733;</span>
+                                <span class="star">&#9734;</span>
+                                <span class="star">&#9734;</span>
+                                <span class="star">&#9734;</span>
+                                <span class="star">&#9734;</span>
+                                <span class="star">&#9734;</span>
                             </div>
                             <p class="total-reviews">{{ total_review }} оценок</p>
                             <a href="#" class="total-comments">{{ total_comments }} отзывов</a>
@@ -44,7 +61,7 @@
                             <div class="bar-container">
                                 <div class="bar"></div>
                             </div>
-                            <span class="count">12</span>
+                            <span class="count">0</span>
                         </div>
                         <div class="chart-row">
                             <span class="rating-label">4</span>
@@ -161,6 +178,33 @@
             document.querySelector('.average-rating').textContent = averageRating.toFixed(1);
             document.querySelector('.total-reviews').textContent = `${totalReviews} оценок`;
             document.querySelector('.total-comments').textContent = `${totalComments} отзывов`;
+
+            // Update stars based on average rating
+            updateStars(averageRating);
+        }
+
+        function updateStars(rating) {
+            const starsContainer = document.querySelector('.stars');
+            const stars = starsContainer.querySelectorAll('.star');
+
+            // Reset all stars
+            stars.forEach(star => {
+                star.innerHTML = '&#9734;'; // Empty star
+            });
+
+            // Fill stars based on rating
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating - fullStars >= 0.5;
+
+            // Fill full stars
+            for (let i = 0; i < fullStars; i++) {
+                stars[i].innerHTML = '&#9733;'; // Filled star
+            }
+
+            // Add half star if needed
+            if (hasHalfStar && fullStars < 5) {
+                stars[fullStars].innerHTML = '&#9733;'; // Use filled star for half (can be replaced with a half-star character if available)
+            }
         }
 
         function updateChart(data) {
@@ -275,5 +319,80 @@
                 alert('Не удалось выполнить запрос');
             });
         }
+
+        // Обработка загрузки файла через проводник
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                // Показываем предварительный просмотр
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profile-img').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+
+                // Отправляем файл на сервер
+                uploadPhotoToServer(file);
+            }
+        }
+
+        // Функция для отправки фото на сервер
+        function uploadPhotoToServer(file) {
+            const formData = new FormData();
+            formData.append('photo', file);
+
+            const csrfToken = "{{ csrf_token }}";
+
+            fetch("{% url 'profile:upload-photo' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    console.log('Фото успешно загружено:', data.photo_url);
+                } else {
+                    console.error('Ошибка при загрузке фото:', data.message);
+                    alert('Ошибка при загрузке фото: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка запроса:', error);
+                alert('Не удалось загрузить фото. Пожалуйста, попробуйте еще раз.');
+            });
+        }
+
+        // Обработка перетаскивания файла
+        const avatarContainer = document.querySelector('.avatar-container');
+
+        avatarContainer.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            avatarContainer.classList.add('dragover');
+        });
+
+        avatarContainer.addEventListener('dragleave', () => {
+            avatarContainer.classList.remove('dragover');
+        });
+
+        avatarContainer.addEventListener('drop', (e) => {
+            e.preventDefault();
+            avatarContainer.classList.remove('dragover');
+
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                // Показываем предварительный просмотр
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profile-img').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+
+                // Отправляем файл на сервер
+                uploadPhotoToServer(file);
+            }
+        });
     </script>
 {% endblock %}

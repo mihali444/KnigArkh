@@ -1,16 +1,47 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.views.generic import TemplateView, FormView
 
 from main.models import BookOffer
 from user.forms import ProfileEditForm
 from user.models import Reviews, Favorite, Subscriber
+
+
+@login_required
+@require_http_methods(['POST'])
+def upload_photo(request):
+    if 'photo' not in request.FILES:
+        return JsonResponse({
+            'status': 'error',
+            'message': 'No photo file provided'
+        }, status=400)
+
+    try:
+        user = request.user
+        photo = request.FILES['photo']
+
+        # Save the new photo to the user's profile
+        user.photo = photo
+        user.save()
+
+        return JsonResponse({
+            'status': 'success',
+            'message': 'Photo uploaded successfully',
+            'photo_url': user.photo.url
+        })
+    except Exception as e:
+        return JsonResponse({
+            'status': 'error',
+            'message': str(e)
+        }, status=500)
 
 
 @require_http_methods(['POST'])

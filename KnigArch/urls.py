@@ -18,7 +18,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from debug_toolbar.toolbar import debug_toolbar_urls
+# from debug_toolbar.toolbar import
 
 from login.views import UserLoginView, logout_views
 from registration.views import UserRegisterView
@@ -32,7 +32,7 @@ urlpatterns = [
     path('registration/', UserRegisterView.as_view(), name='registration'),
     path('reset-password/', include('rest_password.urls')),
     path('', include('main.urls')),
-] + debug_toolbar_urls()
+]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

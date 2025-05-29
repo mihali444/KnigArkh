@@ -18,16 +18,37 @@
                         Найдите нужную книгу и обменяйте её на свою с другими любителями литературы
                     </h3>
                 </div>
-            </div>    
-        
+            </div>
+
             <div class="image-section">
                 <div class="popular-books">
                     <div class="popular-books__title image-section__book-title">
                         Популярная книга сегодня
                     </div>
+                    {% if popular_book %}
+                    <div class="image-section__book-card">
+                        {% with request.user.is_authenticated as auth %}
+                        {% if auth %}
+                            {% check_favorite user=request.user offer=popular_book as favorite %}
+                        {% endif %}
+                        <div class="image-section__book-card_favorite {% if auth and favorite %}active{% endif %}" onclick="toggleFavorite(this)" data-offer-id="{{ popular_book.pk }}">
+                            <i class="{% if auth and favorite %}fas{% else %}far{% endif %} fa-heart"></i>
+                        </div>
+                        {% endwith %}
+                        <a href="{% url 'book:book-offer' popular_book.uuid_post %}" class="image-section__book-card_link">
+                            <img src="{% if popular_book.photos.all.first %}{{ popular_book.photos.all.first.image.url }}{% else %}{{ popular_book.book.img.url }}{% endif %}" alt="Фото книги" class="image-section__book-card_img">
+                            <div class="image-section__book-card_info">
+                                <div class="image-section__book-card_author">{{ popular_book.book.author }}</div>
+                                <div class="image-section__book-card_name">{{ popular_book.book.title }}</div>
+                                <div class="image-section__book-card_location">{% if popular_book.address %}{{ popular_book.address }}{% else %}Адресс не указан{% endif %}</div>
+                                <div class="image-section__book-card_date">{{ popular_book.date_created }}</div>
+                            </div>
+                        </a>
+                    </div>
+                    {% else %}
                     <div class="image-section__book-card">
                         <div class="image-section__book-card_favorite" onclick="toggleFavorite(this)">
-                            <i class="far fa-heart"></i> 
+                            <i class="far fa-heart"></i>
                         </div>
                         <a href="#" class="image-section__book-card_link">
                             <img src="{% static 'main/img/popular-book.png' %}" alt="Фото книги" class="image-section__book-card_img">
@@ -39,14 +60,36 @@
                             </div>
                         </a>
                     </div>
+                    {% endif %}
                 </div>
                 <div class="new-books">
                     <div class="popular-books__title image-section__book-title">
                         Новая книга на сайте
                     </div>
+                    {% if new_book %}
+                    <div class="image-section__book-card">
+                        {% with request.user.is_authenticated as auth %}
+                        {% if auth %}
+                            {% check_favorite user=request.user offer=new_book as favorite %}
+                        {% endif %}
+                        <div class="image-section__book-card_favorite {% if auth and favorite %}active{% endif %}" onclick="toggleFavorite(this)" data-offer-id="{{ new_book.pk }}">
+                            <i class="{% if auth and favorite %}fas{% else %}far{% endif %} fa-heart"></i>
+                        </div>
+                        {% endwith %}
+                        <a href="{% url 'book:book-offer' new_book.uuid_post %}" class="image-section__book-card_link">
+                            <img src="{% if new_book.photos.all.first %}{{ new_book.photos.all.first.image.url }}{% else %}{{ new_book.book.img.url }}{% endif %}" alt="Фото книги" class="image-section__book-card_img">
+                            <div class="image-section__book-card_info">
+                                <div class="image-section__book-card_author">{{ new_book.book.author }}</div>
+                                <div class="image-section__book-card_name">{{ new_book.book.title }}</div>
+                                <div class="image-section__book-card_location">{% if new_book.address %}{{ new_book.address }}{% else %}Адресс не указан{% endif %}</div>
+                                <div class="image-section__book-card_date">{{ new_book.date_created }}</div>
+                            </div>
+                        </a>
+                    </div>
+                    {% else %}
                     <div class="image-section__book-card">
                         <div class="image-section__book-card_favorite" onclick="toggleFavorite(this)">
-                            <i class="far fa-heart"></i> 
+                            <i class="far fa-heart"></i>
                         </div>
                         <a href="#" class="image-section__book-card_link">
                             <img src="{% static 'main/img/new-book.png' %}" alt="Фото книги" class="image-section__book-card_img">
@@ -58,6 +101,7 @@
                             </div>
                         </a>
                     </div>
+                    {% endif %}
                 </div>
             </div>
             {% with request.user.is_authenticated as auth %}
@@ -91,7 +135,7 @@
                     </div>
                 {% endcache %}
 
-{#                {% cache 120 all-books_section %}#}
+    {#                {% cache 120 all-books_section %}#}
                     <div class="all-books-section">
                         <div class="all-books-section__title section__title">
                             <span class="all-books-section__text">Все объявления</span>
@@ -119,7 +163,7 @@
                             {% endfor %}
                         </div>
                     </div>
-{#                {% endcache %}#}
+    {#                {% endcache %}#}
             {% endwith %}
         </div>
         <hr>
