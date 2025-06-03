@@ -173,3 +173,10 @@ KnigArch — это веб-приложение на Django, представл�
   - CSS: `static/main/css/`
   - JavaScript: `static/main/js/`
   - Изображения: `static/main/img/`
+
+
+### FrontEnd:
+[Михаил](https://github.com/mihali444)
+
+### BackEnd
+[dkzzum](https://github.com/dkzzum)
