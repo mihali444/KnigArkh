@@ -4,6 +4,13 @@ from book.validators import validate_file_size, validate_image_extension
 
 # Create your models here.
 class Category(models.Model):
+    """
+    Модель категории книг.
+    
+    Атрибуты:
+        name (str): Название категории (максимум 150 символов)
+        img (ImageField): Изображение категории (необязательно)
+    """
     name = models.CharField(
         max_length=150,
         db_index=True,

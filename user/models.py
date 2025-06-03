@@ -10,6 +10,19 @@ from book.validators import validate_file_size, validate_image_extension
 
 
 def validate_birth_date(value):
+    """
+    Валидатор даты рождения пользователя.
+    
+    Проверяет:
+    - Дата не может быть раньше 1 января 1950 года
+    - Пользователь должен быть старше 16 лет
+    
+    Args:
+        value (date): Дата рождения для проверки
+        
+    Raises:
+        ValidationError: Если дата не соответствует требованиям
+    """
     min_date = datetime.date(1950, 1, 1)
     today = datetime.date.today()
 
@@ -22,6 +35,15 @@ def validate_birth_date(value):
 
 
 class User(AbstractUser):
+    """
+    Модель пользователя системы.
+    
+    Расширяет стандартную модель пользователя Django.
+    
+    Атрибуты:
+        photo (ImageField): Фотография профиля пользователя
+        date_of_birth (date): Дата рождения пользователя
+    """
     photo = models.ImageField(
         upload_to='users/profile_pictures/%Y/%m',
         blank=True,
@@ -38,6 +60,14 @@ class User(AbstractUser):
 
 
 class Favorite(models.Model):
+    """
+    Модель избранных объявлений пользователя.
+    
+    Атрибуты:
+        user (User): Пользователь
+        offer (BookOffer): Объявление
+        added_at (datetime): Дата добавления в избранное
+    """
     user = models.ForeignKey(
         get_user_model(), 
         on_delete=models.CASCADE, 
@@ -58,10 +88,19 @@ class Favorite(models.Model):
         verbose_name = 'Избранное'
         verbose_name_plural = 'Избранное'
         unique_together = ('user', 'offer')
-        ordering = ['-added_at']  # Most recently added first
+        ordering = ['-added_at']
 
 
 class Reviews(models.Model):
+    """
+    Модель отзывов на объявления.
+    
+    Атрибуты:
+        user (User): Пользователь, оставивший отзыв
+        offer (BookOffer): Объявление, на которое оставлен отзыв
+        grade (int): Оценка (от 0 до 5)
+        description (str): Текстовый отзыв
+    """
     user = models.ForeignKey(
         to=get_user_model(),
         on_delete=models.CASCADE,
@@ -95,21 +134,28 @@ class Reviews(models.Model):
         ordering = ['-id']
 
     def __str__(self):
-        """String representation of the review."""
         return f'Отзыв от {self.user.username} на {self.offer}'
 
 
 class Subscriber(models.Model):
+    """
+    Модель подписчиков пользователей.
+    
+    Атрибуты:
+        subscriber (User): Пользователь-подписчик
+        subscribed_to (User): Пользователь, на которого подписались
+        created_at (datetime): Дата подписки
+    """
     subscriber = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='subscriptions',  # Подписки (кто подписан)
+        related_name='subscriptions',
         verbose_name='Подписчик',
     )
     subscribed_to = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='subscribers',  # Подписчики (у кого есть подписчики)
+        related_name='subscribers',
         verbose_name='Подписан на',
     )
     created_at = models.DateTimeField(
@@ -120,7 +166,7 @@ class Subscriber(models.Model):
     class Meta:
         verbose_name = 'Подписка'
         verbose_name_plural = 'Подписки'
-        unique_together = ('subscriber', 'subscribed_to')  # Уникальность пары подписчик-подписка
+        unique_together = ('subscriber', 'subscribed_to')
         constraints = [
             models.CheckConstraint(
                 check=~models.Q(subscriber=models.F('subscribed_to')),

@@ -2,13 +2,13 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.views import PasswordChangeView, LoginView, LogoutView
 from django.http import Http404, JsonResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
-from django.views.generic import TemplateView, FormView
+from django.views.generic import TemplateView, FormView, ListView, DetailView, UpdateView
 
 from main.models import BookOffer
 from user.forms import ProfileEditForm
@@ -195,3 +195,224 @@ class ProfileView(TemplateView):
 
             return context
         return Http404()
+
+
+class UserLoginView(LoginView):
+    """
+    Представление для входа пользователя в систему.
+    
+    Атрибуты:
+        template_name: Шаблон страницы входа
+        redirect_authenticated_user: Перенаправление авторизованных пользователей
+    """
+    template_name = 'user/login.html'
+    redirect_authenticated_user = True
+
+
+class UserLogoutView(LogoutView):
+    """
+    Представление для выхода пользователя из системы.
+    
+    Атрибуты:
+        next_page: URL для перенаправления после выхода
+    """
+    next_page = reverse_lazy('main:index')
+
+
+class UserProfileView(LoginRequiredMixin, DetailView):
+    """
+    Представление профиля пользователя.
+    
+    Атрибуты:
+        model: Модель User
+        template_name: Шаблон профиля
+        context_object_name: Имя переменной контекста
+        
+    Методы:
+        get_context_data: Добавляет дополнительные данные в контекст
+    """
+    model = get_user_model()
+    template_name = 'user/profile.html'
+    context_object_name = 'profile_user'
+
+    def get_context_data(self, **kwargs):
+        """
+        Добавляет дополнительные данные в контекст.
+        
+        Добавляет:
+        - Объявления пользователя
+        - Отзывы пользователя
+        - Количество подписчиков
+        - Количество подписок
+        
+        Returns:
+            dict: Расширенный контекст шаблона
+        """
+        context = super().get_context_data(**kwargs)
+        user = self.get_object()
+        context['offers'] = user.bookoffer_set.all()
+        context['reviews'] = user.reviews.all()
+        context['subscribers_count'] = user.subscribers.count()
+        context['subscriptions_count'] = user.subscriptions.count()
+        return context
+
+
+class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
+    """
+    Представление для редактирования профиля пользователя.
+    
+    Атрибуты:
+        model: Модель User
+        template_name: Шаблон формы редактирования
+        fields: Поля для редактирования
+        success_url: URL для перенаправления после успешного обновления
+        
+    Методы:
+        get_object: Возвращает объект для редактирования
+    """
+    model = get_user_model()
+    template_name = 'user/profile_update.html'
+    fields = ['username', 'email', 'first_name', 'last_name', 'photo', 'date_of_birth']
+    success_url = reverse_lazy('user:profile')
+
+    def get_object(self, queryset=None):
+        """
+        Возвращает объект для редактирования.
+        
+        Returns:
+            User: Текущий пользователь
+        """
+        return self.request.user
+
+
+class FavoriteListView(LoginRequiredMixin, ListView):
+    """
+    Представление списка избранных объявлений.
+    
+    Атрибуты:
+        model: Модель Favorite
+        template_name: Шаблон списка избранного
+        context_object_name: Имя переменной контекста
+        
+    Методы:
+        get_queryset: Возвращает queryset избранных объявлений
+    """
+    model = Favorite
+    template_name = 'user/favorites.html'
+    context_object_name = 'favorites'
+
+    def get_queryset(self):
+        """
+        Возвращает queryset избранных объявлений.
+        
+        Returns:
+            QuerySet: Избранные объявления текущего пользователя
+        """
+        return Favorite.objects.filter(user=self.request.user).select_related('offer', 'offer__book')
+
+
+def toggle_favorite(request, offer_id):
+    """
+    Функция для добавления/удаления объявления из избранного.
+    
+    Args:
+        request: HTTP запрос
+        offer_id: ID объявления
+        
+    Returns:
+        HttpResponse: Перенаправление на страницу объявления
+    """
+    offer = get_object_or_404(BookOffer, id=offer_id)
+    favorite, created = Favorite.objects.get_or_create(user=request.user, offer=offer)
+    
+    if not created:
+        favorite.delete()
+        
+    return redirect('main:book_offer_detail', pk=offer_id)
+
+
+class ReviewCreateView(LoginRequiredMixin, CreateView):
+    """
+    Представление для создания отзыва.
+    
+    Атрибуты:
+        model: Модель Reviews
+        template_name: Шаблон формы отзыва
+        fields: Поля для заполнения
+        success_url: URL для перенаправления после успешного создания
+        
+    Методы:
+        form_valid: Обрабатывает успешную отправку формы
+    """
+    model = Reviews
+    template_name = 'user/review_form.html'
+    fields = ['grade', 'description']
+    success_url = reverse_lazy('main:book_offers')
+
+    def form_valid(self, form):
+        """
+        Обрабатывает успешную отправку формы.
+        
+        Сохраняет:
+        - Отзыв с привязкой к пользователю и объявлению
+        
+        Args:
+            form: Валидная форма
+            
+        Returns:
+            HttpResponse: Перенаправление на страницу успеха
+        """
+        form.instance.user = self.request.user
+        form.instance.offer_id = self.kwargs['offer_id']
+        return super().form_valid(form)
+
+
+class SubscriberListView(LoginRequiredMixin, ListView):
+    """
+    Представление списка подписчиков пользователя.
+    
+    Атрибуты:
+        model: Модель Subscriber
+        template_name: Шаблон списка подписчиков
+        context_object_name: Имя переменной контекста
+        
+    Методы:
+        get_queryset: Возвращает queryset подписчиков
+    """
+    model = Subscriber
+    template_name = 'user/subscribers.html'
+    context_object_name = 'subscribers'
+
+    def get_queryset(self):
+        """
+        Возвращает queryset подписчиков.
+        
+        Returns:
+            QuerySet: Подписчики текущего пользователя
+        """
+        return Subscriber.objects.filter(subscribed_to=self.request.user).select_related('subscriber')
+
+
+def toggle_subscription(request, user_id):
+    """
+    Функция для подписки/отписки от пользователя.
+    
+    Args:
+        request: HTTP запрос
+        user_id: ID пользователя
+        
+    Returns:
+        HttpResponse: Перенаправление на профиль пользователя
+    """
+    user_to_subscribe = get_object_or_404(get_user_model(), id=user_id)
+    
+    if request.user != user_to_subscribe:
+        subscription, created = Subscriber.objects.get_or_create(
+            subscriber=request.user,
+            subscribed_to=user_to_subscribe
+        )
+        
+        if not created:
+            subscription.delete()
+            
+    return redirect('user:profile', pk=user_id)

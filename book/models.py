@@ -7,7 +7,13 @@ from .validators import validate_file_size, validate_image_extension
 
 
 class Author(models.Model):
-    """ Таблица: Автор """
+    """
+    Модель автора книги.
+    
+    Атрибуты:
+        name (str): Имя автора (максимум 150 символов)
+        bio (str): Краткая биография автора (необязательно, максимум 3000 символов)
+    """
     name = models.CharField(
         max_length=150,
         db_index=True,
@@ -31,8 +37,21 @@ class Author(models.Model):
 
 
 class Book(models.Model):
-    """ Таблица: Книги """
+    """
+    Модель книги.
+    
+    Атрибуты:
+        title (str): Название книги (максимум 100 символов)
+        img (ImageField): Фотография книги
+        language (str): Язык книги (выбор из предопределенных языков)
+        author (Author): Связь с моделью автора
+        category (Category): Связь с категориями книги
+        publisher (Publisher): Связь с издательством
+        description (str): Описание книги (необязательно, максимум 3000 символов)
+        release_year (int): Год выпуска книги (необязательно)
+    """
     class Language(models.TextChoices):
+        """Выбор языка книги"""
         ENG = 'Английский', 'en'
         RUS = 'Русский', 'ru'
 
@@ -99,6 +118,13 @@ class Book(models.Model):
         return f"{self.title} ({self.author.name} – {self.publisher})"
 
     def clean(self):
+        """
+        Валидация данных книги.
+        
+        Проверяет:
+        - Длина названия книги (минимум 3 символа)
+        - Наличие описания
+        """
         if len(self.title) < 3:
             raise ValidationError({'title': 'Название книги должно содержать минимум 3 символа.'})
         if not self.description.strip():
@@ -106,7 +132,13 @@ class Book(models.Model):
 
 
 class Photo(models.Model):
-    """ Таблица: Фотография """
+    """
+    Модель фотографии книги.
+    
+    Атрибуты:
+        book (Book): Связь с моделью книги
+        image (ImageField): Изображение книги
+    """
     book = models.ForeignKey(
         to='Book',
         on_delete=models.CASCADE,
@@ -125,7 +157,12 @@ class Photo(models.Model):
 
 
 class Publisher(models.Model):
-    """ Таблица: Издательство """
+    """
+    Модель издательства.
+    
+    Атрибуты:
+        name (str): Название издательства (максимум 150 символов)
+    """
     name = models.CharField(
         max_length=150,
         db_index=True,

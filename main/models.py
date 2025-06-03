@@ -7,8 +7,15 @@ from book.validators import validate_file_size, validate_image_extension
 
 
 class MainPageList(models.Model):
-    """ Таблица: Главная страница """
+    """
+    Модель для отображения объявлений на главной странице.
+    
+    Атрибуты:
+        book_offer (BookOffer): Связь с объявлением
+        type (str): Тип отображения на главной странице (популярное, новое, избранное)
+    """
     class BookType(models.TextChoices):
+        """Типы отображения книг на главной странице"""
         POPULAR = 'popular', 'Популярная'
         NEW = 'new', 'Новая'
         FEATURED = 'featured', 'Избранная'
@@ -34,8 +41,23 @@ class MainPageList(models.Model):
 
 
 class BookOffer(models.Model):
-    """ Таблица: Объявления """
+    """
+    Модель объявления о продаже книги.
+    
+    Атрибуты:
+        user (User): Пользователь, создавший объявление
+        uuid_post (UUID): Уникальный идентификатор объявления
+        book (Book): Связь с моделью книги
+        description (str): Описание объявления (максимум 3000 символов)
+        is_published (bool): Статус публикации объявления
+        is_active (str): Статус активности объявления
+        edition_year (int): Год издания книги
+        address (str): Адрес объявления (необязательно)
+        date_created (datetime): Дата создания объявления
+        date_updated (datetime): Дата последнего обновления объявления
+    """
     class OfferStatus(models.TextChoices):
+        """Статусы объявления"""
         ACTIVE = 'Active', 'Активное'
         COMPLETED = 'Completed', 'Завершенное'
 
@@ -46,7 +68,6 @@ class BookOffer(models.Model):
     )
     uuid_post = models.UUIDField(
         default=uuid.uuid4,
-        # editable=False,
     )
     book = models.ForeignKey(
         to='book.Book',
@@ -97,7 +118,13 @@ class BookOffer(models.Model):
 
 
 class Photo(models.Model):
-    """ Таблица: Фотографии объявления """
+    """
+    Модель фотографии объявления.
+    
+    Атрибуты:
+        book (BookOffer): Связь с объявлением
+        image (ImageField): Изображение объявления
+    """
     book = models.ForeignKey(
         to='BookOffer',
         on_delete=models.CASCADE,
