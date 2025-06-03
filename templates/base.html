@@ -1,0 +1,100 @@
+{% load static %}
+{% load cache %}
+
+<!DOCTYPE html>
+<html lang="ru">
+{% block head %}
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{% static 'main/css/reset.css' %}">
+        <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link rel="icon" href="{% static 'main/img/icon.svg' %}">
+        <title>КнигАрх</title>
+    </head>
+{% endblock %}
+<body>
+    <header class="header">
+        <nav class="header-nav">
+            <div class="header-left">
+                <img class="header-img" src="{% static 'main/img/icon.svg' %}" alt="Иконка сайта КнигАрх">
+                <h1 class="header-title">
+                    <a href="{% url 'main:index' %}" class="header-title-link">КнигАрх</a>
+                </h1>
+            </div>
+            {% with request.user.is_authenticated as auth %}
+                {% if auth %}
+                    <div class="header-right">
+                        <div class="header-buttons">
+                            <a href="{% url 'logout' %}?next={{ request.path }}" class="button-registration button-registration__link">Выйти</a>
+                            <a type="button" class="button-create-advertisement" href="{% url 'book:new-book-offer' %}">Создать объявление</a>
+
+                            <a href="#" class="button-message button-message-link">
+                                <img class="button-message__img" src="{% static 'main/img/message.svg' %}" alt="Конверт">
+                            </a>
+
+                                <a href="#" class="button-heart button-heart-link">
+                                    <img class="button-heart__img" src="{% static 'main/img/black-heart.svg' %}" alt="Сердце">
+                                </a>
+                                <a href="#" class="button-notification button-notification-link">
+                                    <img class="button-notification__img" src="{% static 'main/img/notification.svg' %}" alt="Колокольчик">
+                                </a>
+                        </div>
+                        <div class="header-profile">
+                            <a href="{% url 'profile:profile' request.user.username %}" class="header-profile-link">
+                                <img class="header-profile__img" src="{{ request.user.photo.url }}" alt="Фото вашего профиля">
+                            </a>
+                        </div>
+                    </div>
+                {% elif request.path != '/profile/login/' and request.path != '/profile/reset-password/' and request.path != '/profile/password-reset/MQ/set-password/' %}
+                    <div class="header-right">
+                        <div class="header-buttons">
+                            <a href="{% url 'login' %}?next={{ request.path }}" class="button-registration button-registration__link">Вход и Регистрация</a>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endwith %}
+        </nav>
+    </header>
+    <hr>
+    {% block content %}
+
+    {% endblock %}
+
+    {% cache 120 footer %}
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-top">
+                    <div class="logo-section__footer">
+                        <img src="{% static 'main/img/icon.svg' %}" alt="Логотип КнигАрх" class="footer-logo">
+                        <h2 class="site-name__footer">КнигАрх</h2>
+                    </div>
+                </div>
+
+                <div class="links-container__footer">
+                    <a href="#" class="footer-link">Политика конфиденциальности</a>
+                    <a href="#" class="footer-link">Вопрос-ответ</a>
+                    <a href="#" class="footer-link">Контакты</a>
+                    <a href="#" class="footer-link">Отзывы</a>
+                </div>
+
+                <div class="social-icons__footer">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+
+                <p class="copyright__footer">© 2025 Все права защищены</p>
+            </div>
+        </footer>
+    {% endcache %}
+    {% block extra_js %}
+        <script>
+            function redirectToNewAdvertisementPage() {
+                console.log('Кнопка нажата!');
+                window.location.href = '{% url 'book:new-book-offer' %}';
+            }
+        </script>
+    {% endblock %}
+</body>
+</html>

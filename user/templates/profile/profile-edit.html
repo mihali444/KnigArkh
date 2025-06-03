@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <main class="main">
+        <div class="container">
+            <div class="profile-edit">
+                <h1 class="profile-edit__title">Редактирование профиля</h1>
+                <!-- Форма -->
+                <form class="profile-edit__form">
+                    <!-- Имя и Фамилия -->
+                    <div class="profile-edit__row">
+                        <div class="profile-edit__col">
+                            <label for="first-name" class="profile-edit__label">Имя</label>
+                            <input type="text" id="first-name" class="profile-edit__input profile-edit__input-name">
+                        </div>
+                        <div class="profile-edit__col">
+                            <label for="last-name" class="profile-edit__label">Фамилия</label>
+                            <input type="text" id="last-name" class="profile-edit__input profile-edit__input-lastname">
+                        </div>
+                    </div>
+
+                    <!-- Дата рождения -->
+                    <div class="profile-edit__row">
+                        <div class="profile-edit__col">
+                            <label for="birthdate" class="profile-edit__label">Дата рождения</label>
+                            <input type="date" id="birthdate" class="profile-edit__input">
+                        </div>
+                    </div>
+
+                    <!-- Логин -->
+                    <div class="profile-edit__row">
+                        <div class="profile-edit__col">
+                            <label for="login" class="profile-edit__label">Логин</label>
+                            <input type="text" id="login" class="profile-edit__input">
+                        </div>
+                    </div>
+
+                    <!-- Кнопка обновления -->
+                    <button type="submit" class="profile-edit__submit-button">Обновить</button>
+                    <button type="button" class="profile-edit__reset-password" onclick="redirectToChangePasswordPage()">Сменить пароль</button>
+                </form>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        function redirectToChangePasswordPage() {
+            console.log('Кнопка нажата!');
+            window.location.href = '{% url 'profile:change-password' %}';
+        }
+    </script>
+{% endblock %}
