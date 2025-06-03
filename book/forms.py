@@ -3,6 +3,13 @@ from book.models import Author, Publisher, Book
 
 
 class AuthorForm(forms.ModelForm):
+    """
+    Форма для создания и редактирования автора.
+    
+    Поля:
+        name: Имя автора
+        bio: Краткая биография автора
+    """
     class Meta:
         model = Author
         fields = ['name', 'bio']
@@ -13,6 +20,12 @@ class AuthorForm(forms.ModelForm):
 
 
 class PublisherForm(forms.ModelForm):
+    """
+    Форма для создания и редактирования издательства.
+    
+    Поля:
+        name: Название издательства
+    """
     class Meta:
         model = Publisher
         fields = ['name']
@@ -22,6 +35,18 @@ class PublisherForm(forms.ModelForm):
 
 
 class BookForm(forms.ModelForm):
+    """
+    Форма для создания и редактирования книги.
+    
+    Поля:
+        title: Название книги
+        img: Фотография книги
+        language: Язык книги
+        category: Категории книги
+        description: Описание книги
+        release_year: Год выпуска
+        publisher: Издательство
+    """
     class Meta:
         model = Book
         fields = ['title', 'img', 'language', 'category', 'description', 'release_year', 'publisher']

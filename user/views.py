@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.views.generic import TemplateView, FormView, ListView, DetailView, UpdateView, CreateView
 
+
 from main.models import BookOffer
 from user.forms import ProfileEditForm
 from user.models import Reviews, Favorite, Subscriber
@@ -18,6 +19,15 @@ from user.models import Reviews, Favorite, Subscriber
 @login_required
 @require_http_methods(['POST'])
 def upload_photo(request):
+    """
+    Представление для загрузки фотографии профиля пользователя.
+    
+    Args:
+        request: HTTP запрос с файлом фотографии
+        
+    Returns:
+        JsonResponse: Статус загрузки и URL загруженной фотографии
+    """
     if 'photo' not in request.FILES:
         return JsonResponse({
             'status': 'error',
@@ -46,6 +56,15 @@ def upload_photo(request):
 
 @require_http_methods(['POST'])
 def subscribe(request, ):
+    """
+    Представление для подписки/отписки на пользователя.
+    
+    Args:
+        request: HTTP запрос с ID подписчика и ID пользователя для подписки
+        
+    Returns:
+        JsonResponse: Статус операции и текущее состояние подписки
+    """
     if not request.user.is_authenticated:
         return JsonResponse(
             {'status': 'error', 'message': 'Требуется вход в систему'},
@@ -73,6 +92,16 @@ def subscribe(request, ):
 
 
 class ProfilePasswordChangeView(PasswordChangeView):
+    """
+    Представление для изменения пароля пользователя.
+    
+    Атрибуты:
+        template_name: Шаблон формы изменения пароля
+        form_class: Форма для изменения пароля
+        
+    Методы:
+        get_success_url: Возвращает URL профиля пользователя
+    """
     template_name = 'profile/change-password.html'
     form_class = PasswordChangeForm
 
@@ -82,6 +111,19 @@ class ProfilePasswordChangeView(PasswordChangeView):
 
 # Create your views here.
 class ProfileEditView(LoginRequiredMixin, FormView):
+    """
+    Представление для редактирования профиля пользователя.
+    
+    Атрибуты:
+        login_url: URL для перенаправления неавторизованных пользователей
+        template_name: Шаблон формы редактирования
+        form_class: Форма для редактирования профиля
+        
+    Методы:
+        get_form_kwargs: Добавляет текущего пользователя в форму
+        form_valid: Обрабатывает сохранение изменений профиля
+        get_success_url: Возвращает URL профиля пользователя
+    """
     login_url = reverse_lazy('login')
     template_name = 'profile/profile-edit.html'
     form_class = ProfileEditForm
@@ -114,6 +156,16 @@ class ProfileEditView(LoginRequiredMixin, FormView):
 
 
 class ProfileView(TemplateView):
+    """
+    Представление для отображения профиля пользователя.
+    
+    Атрибуты:
+        template_name: Шаблон профиля
+        
+    Методы:
+        get_context_data: Добавляет информацию о пользователе, его объявлениях,
+                         отзывах, рейтинге и подписках в контекст
+    """
     template_name = 'profile/my_profile.html'
 
     def get_context_data(self, **kwargs):
@@ -229,7 +281,8 @@ class UserProfileView(LoginRequiredMixin, DetailView):
         context_object_name: Имя переменной контекста
         
     Методы:
-        get_context_data: Добавляет дополнительные данные в контекст
+        get_context_data: Добавляет информацию о пользователе, его объявлениях,
+                         отзывах и подписках в контекст
     """
     model = get_user_model()
     template_name = 'user/profile.html'
@@ -268,7 +321,7 @@ class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
         success_url: URL для перенаправления после успешного обновления
         
     Методы:
-        get_object: Возвращает объект для редактирования
+        get_object: Возвращает объект пользователя для редактирования
     """
     model = get_user_model()
     template_name = 'user/profile_update.html'
@@ -287,7 +340,7 @@ class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
 
 class FavoriteListView(LoginRequiredMixin, ListView):
     """
-    Представление списка избранных объявлений.
+    Представление списка избранных объявлений пользователя.
     
     Атрибуты:
         model: Модель Favorite
@@ -295,7 +348,7 @@ class FavoriteListView(LoginRequiredMixin, ListView):
         context_object_name: Имя переменной контекста
         
     Методы:
-        get_queryset: Возвращает queryset избранных объявлений
+        get_queryset: Возвращает queryset избранных объявлений текущего пользователя
     """
     model = Favorite
     template_name = 'user/favorites.html'
@@ -333,7 +386,7 @@ def toggle_favorite(request, offer_id):
 
 class ReviewCreateView(LoginRequiredMixin, CreateView):
     """
-    Представление для создания отзыва.
+    Представление для создания отзыва на объявление.
     
     Атрибуты:
         model: Модель Reviews
@@ -342,7 +395,7 @@ class ReviewCreateView(LoginRequiredMixin, CreateView):
         success_url: URL для перенаправления после успешного создания
         
     Методы:
-        form_valid: Обрабатывает успешную отправку формы
+        form_valid: Обрабатывает сохранение отзыва и связывает его с объявлением
     """
     model = Reviews
     template_name = 'user/review_form.html'
@@ -377,7 +430,7 @@ class SubscriberListView(LoginRequiredMixin, ListView):
         context_object_name: Имя переменной контекста
         
     Методы:
-        get_queryset: Возвращает queryset подписчиков
+        get_queryset: Возвращает queryset подписчиков текущего пользователя
     """
     model = Subscriber
     template_name = 'user/subscribers.html'

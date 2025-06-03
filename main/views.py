@@ -12,6 +12,18 @@ from .forms import BookOfferForm, PhotoFormSet
 
 # Create your views here.
 class MainPageView(TemplateView):
+    """
+    Представление главной страницы сайта.
+    
+    Отображает:
+    - Список всех категорий
+    - Последние 6 опубликованных книг
+    - Популярную книгу
+    - Новую книгу
+    
+    Атрибуты:
+        template_name: Шаблон главной страницы
+    """
     template_name = 'main/index.html'
 
     def get_context_data(self, **kwargs):
@@ -67,11 +79,11 @@ def index(request):
 
 class BookOffersListView(ListView):
     """
-    Представление для отображения списка объявлений.
+    Представление для отображения списка объявлений о продаже книг.
     
     Атрибуты:
         model: Модель BookOffer
-        template_name: Шаблон для отображения
+        template_name: Шаблон для отображения списка
         context_object_name: Имя переменной контекста
         paginate_by: Количество объявлений на странице
         
@@ -131,15 +143,15 @@ class BookOffersListView(ListView):
 
 class BookOfferDetailView(DetailView):
     """
-    Представление для отображения детальной информации об объявлении.
+    Представление для отображения детальной информации об объявлении о продаже книги.
     
     Атрибуты:
         model: Модель BookOffer
-        template_name: Шаблон для отображения
+        template_name: Шаблон для отображения деталей
         context_object_name: Имя переменной контекста
         
     Методы:
-        get_context_data: Добавляет дополнительные данные в контекст
+        get_context_data: Добавляет фотографии и отзывы в контекст
     """
     model = BookOffer
     template_name = 'main/book_offer_detail.html'
@@ -164,17 +176,17 @@ class BookOfferDetailView(DetailView):
 
 class BookOfferCreateView(LoginRequiredMixin, CreateView):
     """
-    Представление для создания нового объявления.
+    Представление для создания нового объявления о продаже книги.
     
     Атрибуты:
         model: Модель BookOffer
         form_class: Форма для создания объявления
-        template_name: Шаблон для отображения
+        template_name: Шаблон формы создания
         success_url: URL для перенаправления после успешного создания
         
     Методы:
-        get_context_data: Добавляет дополнительные данные в контекст
-        form_valid: Обрабатывает успешную отправку формы
+        get_context_data: Добавляет форму для загрузки фотографий
+        form_valid: Обрабатывает сохранение объявления и фотографий
     """
     model = BookOffer
     form_class = BookOfferForm
@@ -227,17 +239,17 @@ class BookOfferCreateView(LoginRequiredMixin, CreateView):
 
 class BookOfferUpdateView(LoginRequiredMixin, UpdateView):
     """
-    Представление для редактирования объявления.
+    Представление для редактирования существующего объявления о продаже книги.
     
     Атрибуты:
         model: Модель BookOffer
         form_class: Форма для редактирования объявления
-        template_name: Шаблон для отображения
+        template_name: Шаблон формы редактирования
         
     Методы:
         get_queryset: Возвращает queryset объявлений текущего пользователя
-        get_context_data: Добавляет дополнительные данные в контекст
-        form_valid: Обрабатывает успешную отправку формы
+        get_context_data: Добавляет форму для управления фотографиями
+        form_valid: Обрабатывает сохранение изменений
     """
     model = BookOffer
     form_class = BookOfferForm
@@ -296,12 +308,12 @@ class BookOfferUpdateView(LoginRequiredMixin, UpdateView):
 
 class BookOfferDeleteView(LoginRequiredMixin, DeleteView):
     """
-    Представление для удаления объявления.
+    Представление для удаления объявления о продаже книги.
     
     Атрибуты:
         model: Модель BookOffer
-        template_name: Шаблон для отображения
-        success_url: URL для перенаправления после успешного удаления
+        template_name: Шаблон подтверждения удаления
+        success_url: URL для перенаправления после удаления
         
     Методы:
         get_queryset: Возвращает queryset объявлений текущего пользователя
