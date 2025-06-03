@@ -3,6 +3,7 @@ from datetime import datetime
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
+from .validators import validate_file_size, validate_image_extension
 
 
 class Author(models.Model):
@@ -42,10 +43,11 @@ class Book(models.Model):
         help_text='Введите название книги',
     )
     img = models.ImageField(
-        upload_to='book/default_book/',
-        default='book/default_book/default.png',
         blank=True,
+        default='book/default_book/default.png',
+        upload_to='book/default_book/',
         verbose_name='Фото',
+        validators=[validate_file_size, validate_image_extension]
     )
     language = models.CharField(
         max_length=20,
@@ -113,7 +115,8 @@ class Photo(models.Model):
     )
     image = models.ImageField(
         upload_to='book/default_book/',
-        verbose_name='Изображение'
+        verbose_name='Изображение',
+        validators=[validate_file_size, validate_image_extension]
     )
 
     class Meta:

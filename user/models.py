@@ -6,6 +6,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
+from book.validators import validate_file_size, validate_image_extension
 
 
 def validate_birth_date(value):
@@ -26,6 +27,7 @@ class User(AbstractUser):
         blank=True,
         verbose_name='Фото профиля',
         default='users/profile_pictures/default.png',
+        validators=[validate_file_size, validate_image_extension]
     )
     date_of_birth = models.DateField(
         blank=True,

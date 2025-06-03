@@ -1,4 +1,5 @@
 from django.db import models
+from book.validators import validate_file_size, validate_image_extension
 
 
 # Create your models here.
@@ -14,6 +15,7 @@ class Category(models.Model):
         verbose_name='Фото категории',
         blank=True,
         null=True,
+        validators=[validate_file_size, validate_image_extension]
     )
 
     class Meta:

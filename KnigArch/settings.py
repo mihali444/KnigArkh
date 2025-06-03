@@ -165,16 +165,24 @@ LOGIN_REDIRECT_URL = '/'
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 EMAIL_HOST = 'smtp.yandex.ru'
-EMAIL_PORT = 465
+EMAIL_PORT = 587  # Порт для TLS
 EMAIL_HOST_USER = 'knig.arh@yandex.com'
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-EMAIL_USE_SSL = True
-EMAIL_USE_TLS = False
+EMAIL_USE_SSL = False
+EMAIL_USE_TLS = True
 
-# EMAIL_SSL_CERTFILE = certifi.where()
-# EMAIL_SSL_CERTFILE = None
-# EMAIL_SSL_KEYFILE = None
+EMAIL_SSL_CERTFILE = certifi.where()
+EMAIL_SSL_KEYFILE = None
+EMAIL_SSL_VERIFY = False  # Временно отключаем проверку сертификата
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
 EMAIL_ADMIN = EMAIL_HOST_USER
+
+# Maximum size, in bytes, of a request before it will be streamed to the
+# file system instead of into memory.
+FILE_UPLOAD_MAX_MEMORY_SIZE = 5242880  # 5MB
+
+# Maximum size in bytes of request data (excluding file uploads) that will be
+# read before a SuspiciousOperation (RequestDataTooBig) is raised.
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880  # 5MB
 
