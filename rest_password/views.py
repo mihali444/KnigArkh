@@ -1,7 +1,5 @@
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import get_template, render_to_string
 from django.urls import reverse_lazy
 
 
