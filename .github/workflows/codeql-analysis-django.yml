@@ -34,10 +34,7 @@ jobs:
         with:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
-          queries: |
-            security-extended,
-            security-and-quality,
-            codeql-djangosanitizer
+          config-file: .github/codeql/codeql-quality.yml
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
