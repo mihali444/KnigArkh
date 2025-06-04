@@ -35,7 +35,6 @@ jobs:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
           queries: |
-            codeql/python-queries,
             security-extended,
             security-and-quality,
             codeql-djangosanitizer
