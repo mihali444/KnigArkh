@@ -29,7 +29,7 @@ The project consists of the following applications:
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone git@github.com:dkzzum/KnigArkh.git
    cd KnigArch
    ```
 
@@ -116,7 +116,7 @@ KnigArch — это веб-приложение на Django, представл�
 
 1. Клонируйте репозиторий:
    ```bash
-   git clone <url-репозитория>
+   git clone git@github.com:dkzzum/KnigArkh.git
    cd KnigArch
    ```
 
