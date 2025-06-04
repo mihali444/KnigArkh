@@ -1,0 +1,41 @@
+name: "CodeQL Quality & Security"
+
+description: |
+  Конфигурация CodeQL для анализа качества кода и безопасности.
+  Подходит для Python/Django проектов.
+
+disable-default-queries: false
+
+queries:
+  - uses: security-extended
+    comment: Расширенные проверки безопасности
+
+  - uses: security-and-quality
+    comment: Комбинация безопасности и качества кода
+
+  - uses: codeql-djangosanitizer
+    comment: Проверки безопасности для Django шаблонов и views
+
+  - uses: codeql/python/ql/src/semmle/python/security/dataflow/TaintedPath.ql@v2
+    comment: Защита от path traversal и других уязвимостей с путями
+
+  - uses: codeql/python/ql/src/semmle/python/concepts/UnusedImport.ql
+    comment: Обнаружение неиспользуемых импортов
+
+  - uses: codeql/python/ql/src/semmle/python/concepts/Unreachable.ql
+    comment: Поиск недостижимого кода
+
+  - uses: codeql/python/ql/src/semmle/python/concepts/IneffectiveAssertions.ql
+    comment: Проверка бессмысленных assert'ов
+
+  - uses: codeql/python/ql/src/semmle/python/concepts/TypeErrors.ql
+    comment: Обнаружение потенциальных ошибок типизации
+
+  - uses: codeql/python/ql/src/semmle/python/concepts/TooManyArguments.ql
+    comment: Методы или функции с избыточным количеством аргументов
+
+  - uses: codeql/python/ql/src/semmle/python/concepts/LongFunction.ql
+    comment: Очень длинные функции — снижают читаемость
+
+  - uses: codeql/python/ql/src/semmle/python/concepts/NestedBlocks.ql
+    comment: Глубоко вложенные блоки кода
